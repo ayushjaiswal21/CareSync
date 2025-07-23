@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import LandingPage from './pages/LandingPage'
 import Layout from './components/common/Layout'
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
@@ -43,6 +44,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
+      <Route path="/" element={<LandingPage />} />
       <Route 
         path="/login" 
         element={user ? <Navigate to={`/${user.role}`} /> : <Login />} 
@@ -52,8 +54,8 @@ const AppRoutes = () => {
         element={user ? <Navigate to={`/${user.role}`} /> : <Register />} 
       />
       
-      {/* Protected Routes */}
-      <Route path="/" element={
+      {/* Protected Dashboard Routes */}
+      <Route path="/dashboard" element={
         <ProtectedRoute>
           <Layout />
         </ProtectedRoute>
@@ -64,8 +66,25 @@ const AppRoutes = () => {
         <Route path="pharmacist" element={<PharmacistDashboard />} />
       </Route>
       
+      {/* Role-specific routes */}
+      <Route path="/patient" element={
+        <ProtectedRoute>
+          <Layout><PatientDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/doctor" element={
+        <ProtectedRoute>
+          <Layout><DoctorDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/pharmacist" element={
+        <ProtectedRoute>
+          <Layout><PharmacistDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      
       {/* Catch all route */}
-      <Route path="*" element={<Navigate to={user ? `/${user.role}` : "/login"} />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )
 }
