@@ -9,7 +9,9 @@ import PatientDashboard from './components/patient/PatientDashboard'
 import DoctorDashboard from './components/doctor/DoctorDashboard'
 import PharmacistDashboard from './components/pharmacist/PharmacistDashboard'
 import LoadingSpinner from './components/common/LoadingSpinner'
+import ProfilePage from './pages/ProfilePage'
 import './index.css'
+import Prescriptions from './components/patient/Prescriptions';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -64,6 +66,7 @@ const AppRoutes = () => {
         <Route path="patient" element={<PatientDashboard />} />
         <Route path="doctor" element={<DoctorDashboard />} />
         <Route path="pharmacist" element={<PharmacistDashboard />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
       
       {/* Role-specific routes */}
