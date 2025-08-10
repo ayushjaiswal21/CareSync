@@ -19,6 +19,7 @@ import StatsSection from "./StatsSection";
 import { Typewriter } from "react-simple-typewriter";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
+import Footer from "./Footer";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -352,107 +353,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            data-aos="fade-up"
-            className="grid grid-cols-2 lg:grid-cols-5 gap-8"
-          >
-            <div data-aos="fade-up" className="col-span-2">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <HeartIcon className="h-5 w-5 text-white" />
-                </div>
-                <span className="ml-2 text-xl font-bold">CareSync</span>
-              </div>
-              <p data-aos="fade-up" className="text-gray-400 mb-4">
-                Revolutionizing healthcare through seamless collaboration
-                between patients, doctors, and pharmacists.
-              </p>
-              <div data-aos="fade-up" className="flex space-x-4">
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">🐦</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">📘</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">💼</span>
-                </div>
-              </div>
-            </div>
-
-            {[
-              {
-                title: "Product",
-                links: [
-                  "Features",
-                  "Pricing",
-                  "API Documentation",
-                  "Integrations",
-                  "Security",
-                ],
-              },
-              {
-                title: "Company",
-                links: ["About Us", "Careers", "Press", "Partners", "Contact"],
-              },
-              {
-                title: "Resources",
-                links: [
-                  "Blog",
-                  "Help Center",
-                  "Community",
-                  "Webinars",
-                  "Status",
-                ],
-              },
-            ].map((section, index) => (
-              <div data-aos="fade-up" key={index}>
-                <h3 className="font-semibold mb-4">{section.title}</h3>
-                <ul className="space-y-2">
-                  {section.links.map((link, idx) => (
-                    <li key={idx}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white transition-colors"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col lg:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © 2025 CareSync. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 lg:mt-0">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Cookie Policy
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+<Footer/>
     </div>
   );
 };
