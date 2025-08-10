@@ -1,6 +1,6 @@
 // src/components/patient/Prescriptions.jsx
 import React, { useState } from 'react'
-import { EyeIcon, DownloadIcon, PrinterIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, ArrowDownTrayIcon, PrinterIcon } from '@heroicons/react/24/outline'
 
 const Prescriptions = () => {
   const [prescriptions] = useState([
@@ -102,7 +102,7 @@ const Prescriptions = () => {
                     className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                     title="Download PDF"
                   >
-                    <DownloadIcon className="h-5 w-5" />
+                    <ArrowDownTrayIcon className="h-5 w-5" />
                   </button>
                   <button 
                     onClick={() => handlePrint(prescription.id)}
