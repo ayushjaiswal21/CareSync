@@ -320,37 +320,31 @@ const LandingPage = () => {
       <Testimonials />
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2
-            data-aos="fade-up"
-            className="text-3xl lg:text-4xl font-bold text-white mb-6"
-          >
-            Ready to Transform Your Healthcare Experience?
-          </h2>
-          <p data-aos="fade-up" className="text-xl text-primary-100 mb-8">
-            Join thousands of healthcare professionals who trust CareSync for
-            better patient care
-          </p>
-          <div
-            data-aos="fade-up"
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              to="/register"
-              className="bg-white text-primary-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold"
-            >
-              Start Your Free Trial
-            </Link>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-primary-600 transition-colors font-semibold">
-              Schedule Demo
-            </button>
-          </div>
-          <p data-aos="fade-up" className="text-primary-200 text-sm mt-4">
-            30-day free trial • No credit card required • Cancel anytime
-          </p>
-        </div>
-      </section>
+ <section className="py-20 bg-primary-600">
+  <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+    <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+      Ready to Transform Your Healthcare Experience?
+    </h2>
+    <p className="text-xl text-primary-100 mb-8">
+      Join thousands of healthcare professionals who trust CareSync for better patient care
+    </p>
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <Link
+        to="/register"
+        className="bg-white text-primary-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold"
+      >
+        Start Your Free Trial
+      </Link>
+      <button className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-primary-600 transition-colors font-semibold">
+        Schedule Demo
+      </button>
+    </div>
+    <p className="text-primary-200 text-sm mt-4">
+      30-day free trial • No credit card required • Cancel anytime
+    </p>
+  </div>
+</section>
+
 
       {/* Footer */}
 <Footer/>
