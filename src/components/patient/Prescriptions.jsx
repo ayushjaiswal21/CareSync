@@ -1,6 +1,6 @@
 // src/components/patient/Prescriptions.jsx
 import React, { useState } from 'react'
-import { EyeIcon, ArrowDownTrayIcon, PrinterIcon } from '@heroicons/react/24/outline'
+import { ArrowDownTrayIcon, PrinterIcon } from '@heroicons/react/24/outline' // Removed EyeIcon since it's unused
 
 const Prescriptions = () => {
   const [prescriptions] = useState([
@@ -65,6 +65,7 @@ const Prescriptions = () => {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">My Prescriptions</h2>
         <div className="flex space-x-2">
@@ -77,10 +78,14 @@ const Prescriptions = () => {
         </div>
       </div>
 
+      {/* Prescriptions list */}
       <div className="space-y-6">
         {prescriptions.map((prescription) => (
-          <div key={prescription.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            {/* Header */}
+          <div
+            key={prescription.id}
+            className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+          >
+            {/* Prescription card header */}
             <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
               <div className="flex justify-between items-start">
                 <div>
@@ -88,7 +93,11 @@ const Prescriptions = () => {
                     <span className="font-mono text-sm bg-primary-100 text-primary-800 px-2 py-1 rounded">
                       {prescription.id}
                     </span>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(prescription.status)}`}>
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
+                        prescription.status
+                      )}`}
+                    >
                       {prescription.status}
                     </span>
                   </div>
@@ -96,15 +105,16 @@ const Prescriptions = () => {
                     Prescribed by {prescription.doctor} on {prescription.date}
                   </p>
                 </div>
+                {/* Action buttons */}
                 <div className="flex space-x-2">
-                  <button 
+                  <button
                     onClick={() => handleDownload(prescription.id)}
                     className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                     title="Download PDF"
                   >
                     <ArrowDownTrayIcon className="h-5 w-5" />
                   </button>
-                  <button 
+                  <button
                     onClick={() => handlePrint(prescription.id)}
                     className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
                     title="Print"
@@ -115,13 +125,16 @@ const Prescriptions = () => {
               </div>
             </div>
 
-            {/* Content */}
+            {/* Prescription card content */}
             <div className="px-6 py-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Prescribed Medicines</h3>
-              
+
               <div className="space-y-3 mb-4">
                 {prescription.medicines.map((medicine, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-medical-50 rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-medical-50 rounded-lg"
+                  >
                     <div>
                       <h4 className="font-medium text-gray-900">{medicine.name}</h4>
                       <p className="text-sm text-gray-600">
@@ -152,15 +165,18 @@ const Prescriptions = () => {
         ))}
       </div>
 
+      {/* No prescriptions fallback */}
       {prescriptions.length === 0 && (
         <div className="text-center py-12">
           <div className="w-24 h-24 mx-auto mb-4 text-gray-300">
             <svg fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">No prescriptions found</h3>
-          <p className="text-gray-600">Your prescriptions will appear here once your doctor prescribes medications.</p>
+          <p className="text-gray-600">
+            Your prescriptions will appear here once your doctor prescribes medications.
+          </p>
         </div>
       )}
     </div>
