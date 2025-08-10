@@ -14,6 +14,7 @@ import {
   CloudIcon,
   LockClosedIcon
 } from '@heroicons/react/24/outline'
+import StatsSection from './StatsSection'
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
@@ -143,26 +144,7 @@ const LandingPage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div data-aos="fade-up" className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { label: 'Healthcare Providers', value: '10,000+', icon: UsersIcon },
-              { label: 'Patients Served', value: '500K+', icon: HeartIcon },
-              { label: 'Prescriptions Processed', value: '2M+', icon: ClockIcon },
-              { label: 'Uptime Guarantee', value: '99.9%', icon: ShieldCheckIcon },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center mb-4">
-                  <stat.icon className="h-8 w-8 text-primary-400" />
-                </div>
-                <div data-aos="fade-up" data-aos-duration="800" className="text-3xl font-bold text-white mb-2">{stat.value}</div>
-                <div data-aos="fade-up" data-aos-duration="1000" className="text-gray-400">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <StatsSection/>
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-white">
