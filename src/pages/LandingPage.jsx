@@ -18,6 +18,7 @@ import StatsSection from "./StatsSection";
 
 import { Typewriter } from "react-simple-typewriter";
 import Pricing from "./PriceSection";
+import Testimonials from "./Testimonials";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -214,201 +215,108 @@ const LandingPage = () => {
       <StatsSection />
 
       {/* Features Section */}
-<section id="features" className="py-20 bg-white">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Heading */}
-    <div className="text-center mb-16">
-      <h2
-        data-aos="zoom-in-up"
-        data-aos-duration="800"
-        className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
-      >
-        Everything You Need for Modern Healthcare
-      </h2>
-      <p
-        data-aos="zoom-in-up"
-        data-aos-delay="200"
-        data-aos-duration="800"
-        className="text-xl text-gray-600 max-w-3xl mx-auto"
-      >
-        Our comprehensive platform brings together all stakeholders in the
-        healthcare ecosystem
-      </p>
-    </div>
-
-    {/* Cards */}
-    <div
-      className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-    >
-      {[
-        {
-          icon: HeartIcon,
-          title: "Patient Portal",
-          description:
-            "Secure access to medical records, prescription tracking, and health monitoring tools.",
-          features: [
-            "Medicine Reminders",
-            "Health Logs",
-            "Prescription History",
-            "Doctor Communication",
-          ],
-        },
-        {
-          icon: UsersIcon,
-          title: "Doctor Dashboard",
-          description:
-            "Comprehensive patient management with AI-powered diagnosis assistance.",
-          features: [
-            "Patient Management",
-            "AI Diagnosis Support",
-            "Digital Prescriptions",
-            "Analytics Dashboard",
-          ],
-        },
-        {
-          icon: ShieldCheckIcon,
-          title: "Pharmacy Integration",
-          description:
-            "Streamlined prescription processing and inventory management.",
-          features: [
-            "Order Processing",
-            "Inventory Tracking",
-            "Delivery Management",
-            "Alternative Suggestions",
-          ],
-        },
-      ].map((feature, index) => (
-        <div
-          key={index}
-          data-aos="zoom-in"
-          data-aos-delay={index * 200}
-          data-aos-duration="900"
-          className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-shadow"
-        >
-          {/* Icon */}
-          <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-            <feature.icon className="h-6 w-6 text-primary-600" />
-          </div>
-          {/* Title */}
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
-            {feature.title}
-          </h3>
-          {/* Description */}
-          <p className="text-gray-600 mb-6">
-            {feature.description}
-          </p>
-          {/* Features */}
-          <ul className="space-y-2">
-            {feature.features.map((item, idx) => (
-              <li
-                key={idx}
-                className="flex items-center text-sm text-gray-600"
-              >
-                <CheckIcon className="h-4 w-4 text-green-500 mr-2" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-      {/* Pricing Section */}
- <Pricing/>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-white">
+      <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Heading */}
           <div className="text-center mb-16">
             <h2
-              data-aos="fade-up"
+              data-aos="zoom-in-up"
+              data-aos-duration="800"
               className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
             >
-              Trusted by Healthcare Professionals
+              Everything You Need for Modern Healthcare
             </h2>
             <p
-              data-aos="fade-up"
-              data-aos-duration="900"
-              className="text-xl text-gray-600"
+              data-aos="zoom-in-up"
+              data-aos-delay="200"
+              data-aos-duration="800"
+              className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              See what our users are saying about CareSync
+              Our comprehensive platform brings together all stakeholders in the
+              healthcare ecosystem
             </p>
           </div>
 
-          <div
-            data-aos="fade-up"
-            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-          >
+          {/* Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {[
               {
-                name: "Dr. Sarah Johnson",
-                role: "Cardiologist",
-                hospital: "Metro General Hospital",
-                content:
-                  "CareSync has revolutionized how I manage my patients. The AI-powered insights help me make better diagnoses, and the seamless communication with pharmacists ensures my patients get the right medications quickly.",
-                rating: 5,
+                icon: HeartIcon,
+                title: "Patient Portal",
+                description:
+                  "Secure access to medical records, prescription tracking, and health monitoring tools.",
+                features: [
+                  "Medicine Reminders",
+                  "Health Logs",
+                  "Prescription History",
+                  "Doctor Communication",
+                ],
               },
               {
-                name: "Michael Chen",
-                role: "Pharmacist",
-                hospital: "HealthPlus Pharmacy",
-                content:
-                  "The prescription management system is incredibly efficient. We've reduced processing time by 60% and eliminated prescription errors. The integration with doctors' systems is flawless.",
-                rating: 5,
+                icon: UsersIcon,
+                title: "Doctor Dashboard",
+                description:
+                  "Comprehensive patient management with AI-powered diagnosis assistance.",
+                features: [
+                  "Patient Management",
+                  "AI Diagnosis Support",
+                  "Digital Prescriptions",
+                  "Analytics Dashboard",
+                ],
               },
               {
-                name: "Emma Rodriguez",
-                role: "Patient",
-                hospital: "User since 2024",
-                content:
-                  "As someone with chronic conditions, CareSync has been a lifesaver. I never miss medications thanks to smart reminders, and I can easily track my health progress and communicate with my care team.",
-                rating: 5,
+                icon: ShieldCheckIcon,
+                title: "Pharmacy Integration",
+                description:
+                  "Streamlined prescription processing and inventory management.",
+                features: [
+                  "Order Processing",
+                  "Inventory Tracking",
+                  "Delivery Management",
+                  "Alternative Suggestions",
+                ],
               },
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-8">
-                <div data-aos="fade-up" className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <StarIcon
-                      key={i}
-                      className="h-5 w-5 text-yellow-400 fill-current"
-                    />
-                  ))}
+            ].map((feature, index) => (
+              <div
+                key={index}
+                data-aos="zoom-in"
+                data-aos-delay={index * 200}
+                data-aos-duration="900"
+                className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-xl transition-shadow"
+              >
+                {/* Icon */}
+                <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                  <feature.icon className="h-6 w-6 text-primary-600" />
                 </div>
-                <p data-aos="flip-right" className="text-gray-700 mb-6 italic">
-                  "{testimonial.content}"
-                </p>
-                <div data-aos="flip-right" className="flex items-center">
-                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-primary-600 font-semibold">
-                      {testimonial.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
-                  </div>
-                  <div>
-                    <div
-                      data-aos="flip-right"
-                      className="font-semibold text-gray-900"
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                  {feature.title}
+                </h3>
+                {/* Description */}
+                <p className="text-gray-600 mb-6">{feature.description}</p>
+                {/* Features */}
+                <ul className="space-y-2">
+                  {feature.features.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-center text-sm text-gray-600"
                     >
-                      {testimonial.name}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {testimonial.role}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {testimonial.hospital}
-                    </div>
-                  </div>
-                </div>
+                      <CheckIcon className="h-4 w-4 text-green-500 mr-2" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <Pricing />
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* CTA Section */}
       <section className="py-20 bg-primary-600">
