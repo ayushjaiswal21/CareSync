@@ -436,15 +436,15 @@ const LandingPage = () => {
             {[
               {
                 title: 'Product',
-                links: ['Features', 'Pricing', 'API Documentation', 'Integrations', 'Security']
+                links: [{text:'Features',link:'#features'}, {text:'Pricing',link:'#pricing'}, {text:'API Documentation',link:'#api-docs'}, {text:'Integrations',link:'#integrations'}, {text:'Security',link:'#security'}]
               },
               {
                 title: 'Company',
-                links: ['About Us', 'Careers', 'Press', 'Partners', 'Contact']
+                links: [{text:'About Us',link:'#about'}, {text:'Careers',link:'#careers'}, {text:'Press',link:'#press'}, {text:'Partners',link:'#partners'}, {text:'Contact',link:'#contact'}]
               },
               {
                 title: 'Resources',
-                links: ['Blog', 'Help Center', 'Community', 'Webinars', 'Status']
+                links: [{text:'Blog',link:'#blog'}, {text:'Help Center',link:'#help-center'}, {text:'Community',link:'#community'}, {text:'Webinars',link:'#webinars'}, {text:'Status',link:'#status'}]
               }
             ].map((section, index) => (
               <div data-aos="fade-up" key={index}>
@@ -452,8 +452,8 @@ const LandingPage = () => {
                 <ul className="space-y-2">
                   {section.links.map((link, idx) => (
                     <li key={idx}>
-                      <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                        {link}
+                      <a href={link.link} className="text-gray-400 hover:text-white transition-colors">
+                        {link.text}
                       </a>
                     </li>
                   ))}
@@ -467,9 +467,9 @@ const LandingPage = () => {
               © 2025 CareSync. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 lg:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+              <a href="#privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+              <a href="#terms" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+              <a href="#cookies" className="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
             </div>
           </div>
         </div>
