@@ -11,6 +11,7 @@ import PharmacistDashboard from './components/pharmacist/PharmacistDashboard'
 import LoadingSpinner from './components/common/LoadingSpinner'
 import ProfilePage from './pages/ProfilePage'
 import './index.css'
+import Prescriptions from './components/patient/Prescriptions';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
