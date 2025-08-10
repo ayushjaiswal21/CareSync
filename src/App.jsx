@@ -9,6 +9,7 @@ import PatientDashboard from './components/patient/PatientDashboard'
 import DoctorDashboard from './components/doctor/DoctorDashboard'
 import PharmacistDashboard from './components/pharmacist/PharmacistDashboard'
 import LoadingSpinner from './components/common/LoadingSpinner'
+import ProfilePage from './pages/ProfilePage'
 import './index.css'
 import Prescriptions from './components/patient/Prescriptions';
 
@@ -43,59 +44,51 @@ const AppRoutes = () => {
   }
 
   return (
-<Routes>
-  {/* Public Routes */}
-  <Route path="/" element={<LandingPage />} />
-  <Route 
-    path="/login" 
-    element={user ? <Navigate to={`/${user.role}`} /> : <Login />} 
-  />
-  <Route 
-    path="/register" 
-    element={user ? <Navigate to={`/${user.role}`} /> : <Register />} 
-  />
-
-  {/* Protected routes with shared layout */}
-  <Route 
-    path="/patient"
-    element={
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    }
-  >
-    <Route index element={<PatientDashboard />} />
-    <Route path="prescriptions" element={<Prescriptions />} />
-    {/* add other patient routes here! */}
-  </Route>
-
-  <Route 
-    path="/doctor"
-    element={
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    }
-  >
-    <Route index element={<DoctorDashboard />} />
-    {/* add doctor subroutes here */}
-  </Route>
-
-  <Route 
-    path="/pharmacist"
-    element={
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    }
-  >
-    <Route index element={<PharmacistDashboard />} />
-    {/* add pharmacist subroutes here */}
-  </Route>
-
-  {/* Catch all route */}
-  <Route path="*" element={<Navigate to="/" />} />
-</Routes>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<LandingPage />} />
+      <Route 
+        path="/login" 
+        element={user ? <Navigate to={`/${user.role}`} /> : <Login />} 
+      />
+      <Route 
+        path="/register" 
+        element={user ? <Navigate to={`/${user.role}`} /> : <Register />} 
+      />
+      
+      {/* Protected Dashboard Routes */}
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      }>
+        <Route index element={<Navigate to={`/${user?.role || 'login'}`} />} />
+        <Route path="patient" element={<PatientDashboard />} />
+        <Route path="doctor" element={<DoctorDashboard />} />
+        <Route path="pharmacist" element={<PharmacistDashboard />} />
+        <Route path="profile" element={<ProfilePage />} />
+      </Route>
+      
+      {/* Role-specific routes */}
+      <Route path="/patient" element={
+        <ProtectedRoute>
+          <Layout><PatientDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/doctor" element={
+        <ProtectedRoute>
+          <Layout><DoctorDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/pharmacist" element={
+        <ProtectedRoute>
+          <Layout><PharmacistDashboard /></Layout>
+        </ProtectedRoute>
+      } />
+      
+      {/* Catch all route */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   )
 }
 
