@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 
+@import 'aos/dist/aos.css';
+
+
 /* Custom base styles */
 @layer base {
   html {
