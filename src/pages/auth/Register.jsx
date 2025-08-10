@@ -1,7 +1,8 @@
 // src/pages/auth/Register.jsx
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '../../contexts/AuthContext' // Adjust path as needed
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -21,6 +22,9 @@ const Register = () => {
     pharmacyAddress: '' // For pharmacists
   })
 
+  const { loginWithGoogle } = useAuth()
+  const navigate = useNavigate()
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -37,8 +41,18 @@ const Register = () => {
       return
     }
     
-    // TODO: Implement Firebase authentication
+    // TODO: Implement Firebase email/password registration here
     console.log('Registration attempt:', formData)
+  }
+
+  // Google Sign Up / Sign In handler
+  const handleGoogleSignup = async () => {
+    try {
+      await loginWithGoogle()
+      navigate('/dashboard') // Redirect after Google login/signup success
+    } catch (error) {
+      alert('Google sign-in failed: ' + error.message)
+    }
   }
 
   const renderRoleSpecificFields = () => {
@@ -361,6 +375,7 @@ const Register = () => {
             <div className="mt-6">
               <button
                 type="button"
+                onClick={handleGoogleSignup}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
