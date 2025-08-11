@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
 
 const Login = () => {
-  const { login } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -21,7 +21,6 @@ const Login = () => {
       ...formData,
       [e.target.name]: e.target.value
     })
-    // Clear error when user starts typing
     if (error) setError('')
   }
 
@@ -42,14 +41,26 @@ const Login = () => {
     }
   }
 
-  // Demo credentials helper
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true)
+      const result = await loginWithGoogle()
+      if (result.success) {
+        navigate(`/${result.user.role}`)
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const fillDemoCredentials = (role) => {
     const credentials = {
       patient: { email: 'patient@caresync.com', password: 'password123' },
       doctor: { email: 'doctor@caresync.com', password: 'password123' },
       pharmacist: { email: 'pharmacist@caresync.com', password: 'password123' }
     }
-    
     setFormData({
       ...formData,
       email: credentials[role].email,
@@ -81,25 +92,13 @@ const Login = () => {
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
           <div className="space-y-1 text-xs text-blue-700">
-            <button 
-              type="button"
-              onClick={() => fillDemoCredentials('patient')}
-              className="block hover:underline"
-            >
+            <button type="button" onClick={() => fillDemoCredentials('patient')} className="block hover:underline">
               👤 Patient: patient@caresync.com
             </button>
-            <button 
-              type="button"
-              onClick={() => fillDemoCredentials('doctor')}
-              className="block hover:underline"
-            >
+            <button type="button" onClick={() => fillDemoCredentials('doctor')} className="block hover:underline">
               👩‍⚕️ Doctor: doctor@caresync.com
             </button>
-            <button 
-              type="button"
-              onClick={() => fillDemoCredentials('pharmacist')}
-              className="block hover:underline"
-            >
+            <button type="button" onClick={() => fillDemoCredentials('pharmacist')} className="block hover:underline">
               💊 Pharmacist: pharmacist@caresync.com
             </button>
             <p className="text-blue-600 mt-1">Password: password123</p>
@@ -114,10 +113,9 @@ const Login = () => {
           )}
 
           <div className="space-y-4">
+            {/* Role */}
             <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-                Role
-              </label>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
               <select
                 id="role"
                 name="role"
@@ -130,11 +128,10 @@ const Login = () => {
                 <option value="pharmacist">Pharmacist</option>
               </select>
             </div>
-            
+
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
               <input
                 id="email"
                 name="email"
@@ -146,11 +143,10 @@ const Login = () => {
                 placeholder="Enter your email"
               />
             </div>
-            
+
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <div className="mt-1 relative">
                 <input
                   id="password"
@@ -177,19 +173,12 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Remember me & Forgot password */}
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
+              <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Remember me</label>
             </div>
-
             <div className="text-sm">
               <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
                 Forgot your password?
@@ -197,17 +186,38 @@ const Login = () => {
             </div>
           </div>
 
+          {/* Sign in button */}
           <div>
             <button
               type="submit"
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? (
-                <LoadingSpinner size="sm" color="white" />
-              ) : (
-                'Sign in'
-              )}
+              {loading ? <LoadingSpinner size="sm" color="white" /> : 'Sign in'}
+            </button>
+          </div>
+
+          {/* OR divider */}
+          <div className="flex items-center my-4">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="mx-3 text-gray-500 text-sm">OR</span>
+            <div className="flex-grow border-t border-gray-300"></div>
+          </div>
+
+          {/* Google Sign-In button */}
+          <div>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 bg-white text-sm font-medium rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+            >
+              <img
+                src="https://www.svgrepo.com/show/355037/google.svg"
+                alt="Google"
+                className="h-5 w-5 mr-2"
+              />
+              Sign in with Google
             </button>
           </div>
         </form>
