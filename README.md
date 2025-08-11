@@ -170,12 +170,12 @@ Have ideas, feedback, or just want to say hi?
 
 ---
 <div align="center">
-![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync)
+![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/)
 </div>
 
 ---
 <div align="center">
  **👨‍💻 Developed By**
-**Adhiraj Singh**
-[GitHub](https://github.com/akathedeveloper) | [LinkedIn](https://linkedin.com/in/akathedeveloper)
+**💚Adhiraj Singh💚**
+[GitHub](https://github.com/akathedeveloper/) | [LinkedIn](https://linkedin.com/in/akathedeveloper/)
 </div>
