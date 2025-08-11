@@ -1,11 +1,9 @@
 # 🔐 CareSync
 ![GSSoC Logo](/CareSync/src/assets/gssoc%20logo.png)
 
-<div align="center">
    **OverView**
-   ***🌟 CareSync: Your Health, Simplified & Synced!***
-   ***🚀Where Open-Source Meets Healthcare Innovation***
-</div>
+  ***🌟 CareSync: Your Health, Simplified & Synced!***
+  ***🚀Where Open-Source Meets Healthcare Innovation***
 
 ---
 > **💡 Tired of scattered medical records and endless paperwork?**  
@@ -142,9 +140,9 @@ Have ideas, feedback, or just want to say hi?
 ## 🌟 Show Your Support
 
 **If CareSync has helped you, please consider:**
-⭐ **Star this repository**
-🍴 **Fork and contribute**
-📢 **Share with friends**
+- ⭐ **Star this repository**
+- 🍴 **Fork and contribute**
+- 📢 **Share with friends**
 
 ---
 <h1 align="center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Give us a Star and let's make magic! <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /></h1>
@@ -156,15 +154,16 @@ Have ideas, feedback, or just want to say hi?
 </p>
 
 ---
+<div align="center">
     <a href="#top">
         <img src="https://img.shields.io/badge/Back%20to%20Top-000000?style=for-the-badge&logo=github&logoColor=white" alt="Back to Top">
     </a><br>
      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mirror%20Ball.png" alt="Mirror Ball" width="150" height="150" />
+</div>
 
 ---
-<div align="center">
-![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/)
-</div>
+
+  [Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/)
 
 ---
  **👨‍💻 Developed By**
