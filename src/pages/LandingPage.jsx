@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { 
-  CheckIcon, 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  CheckIcon,
   StarIcon,
   PlayIcon,
   ArrowRightIcon,
@@ -12,130 +12,345 @@ import {
   HeartIcon,
   DevicePhoneMobileIcon,
   CloudIcon,
-  LockClosedIcon
-} from '@heroicons/react/24/outline'
+  LockClosedIcon,
+  XMarkIcon,
+  Bars3Icon,
+  CalendarDaysIcon,
+  BellIcon,
+  UserGroupIcon,
+  DocumentTextIcon,
+  PlusCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
+import { Typewriter } from "react-simple-typewriter";
+import StatsSection from "./StatsSection";
+import Pricing from "./PriceSection";
+import Testimonials from "./Testimonials";
+import Footer from "./Footer";
 
 const LandingPage = () => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50">
+      {/* Enhanced Navigation */}
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-lg border-b border-gray-200/50 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="flex items-center">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <HeartIcon className="h-5 w-5 text-white" />
-                </div>
-                <span className="ml-2 text-xl font-bold text-gray-900">CareSync</span>
+              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                <HeartIcon className="h-6 w-6 text-white" />
               </div>
+              <span className="ml-3 text-2xl font-bold text-gray-900">
+                CareSync
+              </span>
             </div>
-            
+
+            {/* Desktop Menu */}
             <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                <a href="#features" className="text-gray-600 hover:text-primary-600 transition-colors">Features</a>
-                <a href="#pricing" className="text-gray-600 hover:text-primary-600 transition-colors">Pricing</a>
-                <a href="#testimonials" className="text-gray-600 hover:text-primary-600 transition-colors">Testimonials</a>
-                <a href="#contact" className="text-gray-600 hover:text-primary-600 transition-colors">Contact</a>
+              <div className="ml-10 flex items-center space-x-8">
+                {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
+                  item === "Contact" ? (
+                    <Link
+                      key={item}
+                      to="/contact"
+                      className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
+                    >
+                      {item}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                    </Link>
+                  ) : (
+                    <a
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      className="text-gray-600 hover:text-emerald-600 transition-colors font-medium relative group"
+                    >
+                      {item}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-600 group-hover:w-full transition-all duration-300" />
+                    </a>
+                  )
+                ))}
               </div>
             </div>
-            
-            <div className="flex items-center space-x-4">
-              <Link 
-                to="/login" 
-                className="text-gray-600 hover:text-primary-600 transition-colors"
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <Bars3Icon className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
               >
                 Sign In
               </Link>
-              <Link 
-                to="/register" 
-                className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
+              <Link
+                to="/register"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
               >
                 Get Started
               </Link>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {["Features", "Pricing", "Testimonials", "Contact"].map((item) => (
+                item === "Contact" ? (
+                  <Link
+                    key={item}
+                    to="/contact"
+                    className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="block px-3 py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                )
+              ))}
+              <div className="flex flex-col space-y-2 mt-4 px-3">
+                <Link
+                  to="/login"
+                  className="text-center py-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg text-center font-semibold"
+                >
+                  Get Started
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-br from-primary-50 via-white to-medical-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* Enhanced Hero Section */}
+      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-50 overflow-hidden pt-16">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="space-y-4">
-                <div className="inline-flex items-center bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm font-medium">
-                  🚀 Now in Beta - Join Early Access
-                </div>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Healthcare
-                  <span className="text-primary-600"> Simplified</span>
-                  <br />for Everyone
-                </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  CareSync connects patients, doctors, and pharmacists in one secure platform. 
-                  Manage prescriptions, track health, and collaborate seamlessly.
-                </p>
+              <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
+                🏥 Trusted by 500+ Healthcare Providers
               </div>
-              
+
+              <h1 className="text-5xl lg:text-7xl font-black text-gray-900 leading-tight">
+                Healthcare
+                <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent"> Management</span>
+                <br />
+                Made Simple
+              </h1>
+
+              <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed font-medium">
+                Streamline patient care with our comprehensive healthcare platform. 
+                Connect doctors, patients, and pharmacies in one secure ecosystem.
+              </p>
+
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link 
-                  to="/register" 
-                  className="bg-primary-600 text-white px-8 py-4 rounded-lg hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2 font-semibold"
+                <Link
+                  to="/register"
+                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl 
+                  flex items-center justify-center space-x-2 font-bold text-lg shadow-xl hover:shadow-2xl 
+                  transition-all duration-300 transform hover:scale-105"
                 >
                   <span>Start Free Trial</span>
                   <ArrowRightIcon className="h-5 w-5" />
                 </Link>
-                <button 
+
+                <button
                   onClick={() => setIsVideoPlaying(true)}
-                  className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg hover:border-primary-600 hover:text-primary-600 transition-colors flex items-center justify-center space-x-2 font-semibold"
+                  className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl 
+                  hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50 
+                  flex items-center justify-center space-x-2 font-bold text-lg 
+                  transition-all duration-300 transform hover:scale-105"
                 >
                   <PlayIcon className="h-5 w-5" />
                   <span>Watch Demo</span>
                 </button>
               </div>
-              
-              <div className="flex items-center space-x-8 text-sm text-gray-600">
-                <div className="flex items-center space-x-2">
-                  <CheckIcon className="h-5 w-5 text-green-500" />
-                  <span>Free 30-day trial</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckIcon className="h-5 w-5 text-green-500" />
-                  <span>No credit card required</span>
-                </div>
+
+              {/* Enhanced Features with Typewriter */}
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-8 space-y-3 sm:space-y-0 text-base text-gray-600">
+                {[
+                  "HIPAA Compliant & Secure",
+                  "24/7 Support Available"
+                ].map((text, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <div className="h-6 w-6 bg-emerald-100 rounded-full flex items-center justify-center">
+                      <CheckIcon className="h-4 w-4 text-emerald-600" />
+                    </div>
+                    <span className="font-medium">
+                      <Typewriter
+                        words={[text]}
+                        loop={1}
+                        cursor
+                        typeSpeed={50}
+                        delaySpeed={index * 1000}
+                      />
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-            
+
+            {/* Healthcare Dashboard Preview */}
             <div className="relative">
-              <div className="bg-white rounded-2xl shadow-2xl p-8 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-                <div className="bg-gradient-to-br from-primary-500 to-medical-500 rounded-xl p-6 text-white">
-                  <h3 className="text-lg font-semibold mb-4">Live Dashboard</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Active Patients</span>
-                      <span className="font-bold">1,247</span>
+              <div className="bg-white rounded-3xl shadow-2xl p-6 transform rotate-1 hover:rotate-0 transition-all duration-500 hover:scale-105">
+                {/* Dashboard Header */}
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+                      <HeartIcon className="h-6 w-6 text-white" />
                     </div>
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Prescriptions Today</span>
-                      <span className="font-bold">89</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Response Time</span>
-                      <span className="font-bold">2min</span>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900">CareSync Dashboard</h3>
+                      <p className="text-sm text-gray-500">Dr. Sarah Johnson</p>
                     </div>
                   </div>
+                  <div className="relative">
+                    <BellIcon className="h-6 w-6 text-gray-400" />
+                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-xs text-white font-bold">3</span>
+                    </span>
+                  </div>
+                </div>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  {[
+                    { 
+                      label: "Today's Appointments", 
+                      value: "12", 
+                      icon: CalendarDaysIcon, 
+                      color: "text-blue-600",
+                      bg: "bg-blue-100"
+                    },
+                    { 
+                      label: "Pending Reports", 
+                      value: "5", 
+                      icon: DocumentTextIcon, 
+                      color: "text-orange-600",
+                      bg: "bg-orange-100"
+                    },
+                    { 
+                      label: "Active Patients", 
+                      value: "1,247", 
+                      icon: UserGroupIcon, 
+                      color: "text-emerald-600",
+                      bg: "bg-emerald-100"
+                    },
+                    { 
+                      label: "Urgent Cases", 
+                      value: "3", 
+                      icon: ExclamationTriangleIcon, 
+                      color: "text-red-600",
+                      bg: "bg-red-100"
+                    }
+                  ].map((stat, index) => (
+                    <div key={index} className="bg-gray-50 rounded-xl p-4">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-10 h-10 ${stat.bg} rounded-lg flex items-center justify-center`}>
+                          <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                          <p className="text-xs text-gray-500 leading-tight">{stat.label}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Recent Activity */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Recent Activity</h4>
+                  {[
+                    { 
+                      patient: "John Smith", 
+                      action: "Prescription updated", 
+                      time: "10 min ago",
+                      status: "completed"
+                    },
+                    { 
+                      patient: "Maria Garcia", 
+                      action: "Lab results available", 
+                      time: "25 min ago",
+                      status: "new"
+                    },
+                    { 
+                      patient: "Robert Chen", 
+                      action: "Appointment scheduled", 
+                      time: "1 hour ago",
+                      status: "scheduled"
+                    }
+                  ].map((activity, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                          {activity.patient.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{activity.patient}</p>
+                          <p className="text-xs text-gray-500">{activity.action}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                          activity.status === 'completed' ? 'bg-green-500' :
+                          activity.status === 'new' ? 'bg-blue-500' : 'bg-yellow-500'
+                        }`} />
+                        <span className="text-xs text-gray-500">{activity.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Quick Action */}
+                <div className="mt-6 pt-4 border-t border-gray-100">
+                  <button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300">
+                    <PlusCircleIcon className="h-5 w-5" />
+                    <span>New Patient</span>
+                  </button>
                 </div>
               </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-6 -left-6 bg-green-100 text-green-600 p-3 rounded-full animate-bounce">
-                <HeartIcon className="h-6 w-6" />
+
+              {/* Healthcare-themed Floating Elements */}
+              <div className="absolute -top-6 -left-6 bg-emerald-100 text-emerald-600 p-4 rounded-2xl shadow-lg animate-bounce">
+                <HeartIcon className="h-8 w-8" />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-blue-100 text-blue-600 p-3 rounded-full animate-pulse">
-                <ShieldCheckIcon className="h-6 w-6" />
+
+              <div className="absolute -bottom-6 -right-6 bg-blue-100 text-blue-600 p-4 rounded-2xl shadow-lg animate-pulse">
+                <ShieldCheckIcon className="h-8 w-8" />
+              </div>
+
+              <div className="absolute top-1/2 -right-8 bg-orange-100 text-orange-600 p-3 rounded-xl shadow-lg animate-pulse delay-1000">
+                <BellIcon className="h-6 w-6" />
               </div>
             </div>
           </div>
@@ -143,74 +358,78 @@ const LandingPage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { label: 'Healthcare Providers', value: '10,000+', icon: UsersIcon },
-              { label: 'Patients Served', value: '500K+', icon: HeartIcon },
-              { label: 'Prescriptions Processed', value: '2M+', icon: ClockIcon },
-              { label: 'Uptime Guarantee', value: '99.9%', icon: ShieldCheckIcon },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center mb-4">
-                  <stat.icon className="h-8 w-8 text-primary-400" />
-                </div>
-                <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
-                <div className="text-gray-400">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StatsSection />
 
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      {/* Enhanced Features Section */}
+      <section id="features" className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Everything You Need for Modern Healthcare
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6">
+              Complete Healthcare 
+              <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent"> Management Suite</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our comprehensive platform brings together all stakeholders in the healthcare ecosystem
+            <p className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto font-medium leading-relaxed">
+              From patient records to prescription management, everything healthcare providers need in one secure platform
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {[
               {
                 icon: HeartIcon,
-                title: 'Patient Portal',
-                description: 'Secure access to medical records, prescription tracking, and health monitoring tools.',
-                features: ['Medicine Reminders', 'Health Logs', 'Prescription History', 'Doctor Communication']
+                title: "Patient Care Portal",
+                description: "Comprehensive patient management with secure medical records, appointment scheduling, and health tracking.",
+                features: ["Electronic Health Records", "Appointment Management", "Medication Tracking", "Health Monitoring"],
+                gradient: "from-emerald-500 to-teal-600"
               },
               {
                 icon: UsersIcon,
-                title: 'Doctor Dashboard',
-                description: 'Comprehensive patient management with AI-powered diagnosis assistance.',
-                features: ['Patient Management', 'AI Diagnosis Support', 'Digital Prescriptions', 'Analytics Dashboard']
+                title: "Doctor Dashboard",
+                description: "Powerful tools for healthcare providers with AI-assisted diagnosis and treatment planning.",
+                features: ["Patient Management", "AI Diagnosis Assistant", "Digital Prescriptions", "Clinical Analytics"],
+                gradient: "from-blue-500 to-indigo-600"
               },
               {
                 icon: ShieldCheckIcon,
-                title: 'Pharmacy Integration',
-                description: 'Streamlined prescription processing and inventory management.',
-                features: ['Order Processing', 'Inventory Tracking', 'Delivery Management', 'Alternative Suggestions']
+                title: "Pharmacy Network",
+                description: "Integrated pharmacy services with prescription processing and medication delivery.",
+                features: ["Prescription Processing", "Inventory Management", "Delivery Coordination", "Drug Interaction Alerts"],
+                gradient: "from-purple-500 to-pink-600"
               }
             ].map((feature, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                  <feature.icon className="h-6 w-6 text-primary-600" />
+              <div
+                key={index}
+                className="group transform hover:-translate-y-2 transition-all duration-300"
+              >
+                <div className="bg-white border border-gray-200 rounded-3xl p-8 h-full hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500 from-emerald-500 to-teal-600" />
+                  
+                  <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="h-8 w-8 text-white" />
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                    {feature.description}
+                  </p>
+                  
+                  <ul className="space-y-3">
+                    {feature.features.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center text-gray-700 font-medium"
+                      >
+                        <div className="h-5 w-5 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+                          <CheckIcon className="h-3 w-3 text-emerald-600" />
+                        </div>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
-                <p className="text-gray-600 mb-6">{feature.description}</p>
-                <ul className="space-y-2">
-                  {feature.features.map((item, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-600">
-                      <CheckIcon className="h-4 w-4 text-green-500 mr-2" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
               </div>
             ))}
           </div>
@@ -218,264 +437,92 @@ const LandingPage = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="text-xl text-gray-600">
-              Choose the plan that's right for your healthcare needs
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Starter',
-                price: '$29',
-                period: '/month',
-                description: 'Perfect for small clinics',
-                features: [
-                  'Up to 100 patients',
-                  'Basic dashboard',
-                  'Prescription management',
-                  'Email support',
-                  'Mobile app access'
-                ],
-                cta: 'Start Free Trial',
-                popular: false
-              },
-              {
-                name: 'Professional',
-                price: '$99',
-                period: '/month',
-                description: 'Best for growing practices',
-                features: [
-                  'Up to 1,000 patients',
-                  'Advanced analytics',
-                  'AI-powered insights',
-                  'Priority support',
-                  'API integrations',
-                  'Custom branding'
-                ],
-                cta: 'Start Free Trial',
-                popular: true
-              },
-              {
-                name: 'Enterprise',
-                price: 'Custom',
-                period: '',
-                description: 'For large healthcare systems',
-                features: [
-                  'Unlimited patients',
-                  'Custom integrations',
-                  'Dedicated support',
-                  'Advanced security',
-                  'Custom workflows',
-                  'SLA guarantee'
-                ],
-                cta: 'Contact Sales',
-                popular: false
-              }
-            ].map((plan, index) => (
-              <div key={index} className={`bg-white rounded-2xl p-8 relative ${plan.popular ? 'ring-2 ring-primary-600 scale-105' : ''}`}>
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-primary-600 text-white px-4 py-1 rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                
-                <div className="text-center mb-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{plan.name}</h3>
-                  <div className="mb-2">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600">{plan.period}</span>
-                  </div>
-                  <p className="text-gray-600">{plan.description}</p>
-                </div>
-                
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-600">
-                      <CheckIcon className="h-4 w-4 text-green-500 mr-3" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <button className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
-                  plan.popular 
-                    ? 'bg-primary-600 text-white hover:bg-primary-700' 
-                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                }`}>
-                  {plan.cta}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Pricing />
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Healthcare Professionals
-            </h2>
-            <p className="text-xl text-gray-600">
-              See what our users are saying about CareSync
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Dr. Sarah Johnson',
-                role: 'Cardiologist',
-                hospital: 'Metro General Hospital',
-                content: 'CareSync has revolutionized how I manage my patients. The AI-powered insights help me make better diagnoses, and the seamless communication with pharmacists ensures my patients get the right medications quickly.',
-                rating: 5
-              },
-              {
-                name: 'Michael Chen',
-                role: 'Pharmacist',
-                hospital: 'HealthPlus Pharmacy',
-                content: 'The prescription management system is incredibly efficient. We\'ve reduced processing time by 60% and eliminated prescription errors. The integration with doctors\' systems is flawless.',
-                rating: 5
-              },
-              {
-                name: 'Emma Rodriguez',
-                role: 'Patient',
-                hospital: 'User since 2024',
-                content: 'As someone with chronic conditions, CareSync has been a lifesaver. I never miss medications thanks to smart reminders, and I can easily track my health progress and communicate with my care team.',
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-8">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <StarIcon key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-primary-600 font-semibold">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    <div className="text-sm text-gray-500">{testimonial.hospital}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
-      {/* CTA Section */}
-      <section className="py-20 bg-primary-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Ready to Transform Your Healthcare Experience?
+      {/* Enhanced CTA Section */}
+      <section className="py-24 bg-gradient-to-br from-emerald-500 via-teal-600 to-blue-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-y-12" />
+        </div>
+        
+        <div className="relative max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl lg:text-5xl font-black text-white mb-8">
+            Ready to Revolutionize 
+            <br className="hidden sm:block" />
+            Your Healthcare Practice?
           </h2>
-          <p className="text-xl text-primary-100 mb-8">
-            Join thousands of healthcare professionals who trust CareSync for better patient care
+          <p className="text-xl lg:text-2xl text-white/90 mb-12 font-medium leading-relaxed max-w-3xl mx-auto">
+            Join over 500 healthcare providers who have transformed their patient care with CareSync's comprehensive platform
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/register" 
-              className="bg-white text-primary-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold"
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
+            <Link
+              to="/register"
+              className="bg-white text-emerald-600 px-10 py-4 rounded-xl hover:bg-gray-50 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105"
             >
-              Start Your Free Trial
+              Start Free Trial Today
             </Link>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-primary-600 transition-colors font-semibold">
+            
+            <button className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm transform hover:scale-105">
               Schedule Demo
             </button>
           </div>
-          <p className="text-primary-200 text-sm mt-4">
-            30-day free trial • No credit card required • Cancel anytime
-          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-white/80 font-medium">
+            <span className="flex items-center">
+              <CheckIcon className="h-5 w-5 mr-2" />
+              HIPAA Compliant
+            </span>
+            <span className="flex items-center">
+              <CheckIcon className="h-5 w-5 mr-2" />
+              30-day free trial
+            </span>
+            <span className="flex items-center">
+              <CheckIcon className="h-5 w-5 mr-2" />
+              24/7 support
+            </span>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-8">
-            <div className="col-span-2">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <HeartIcon className="h-5 w-5 text-white" />
-                </div>
-                <span className="ml-2 text-xl font-bold">CareSync</span>
-              </div>
-              <p className="text-gray-400 mb-4">
-                Revolutionizing healthcare through seamless collaboration between patients, doctors, and pharmacists.
-              </p>
-              <div className="flex space-x-4">
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">🐦</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">📘</span>
-                </div>
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary-600 transition-colors cursor-pointer">
-                  <span className="text-sm">💼</span>
-                </div>
-              </div>
+      <Footer />
+
+      {/* Video Modal */}
+      {isVideoPlaying && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setIsVideoPlaying(false)}
+        >
+          <div
+            className="bg-white rounded-2xl p-8 max-w-4xl w-full transform transition-all duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">CareSync Platform Demo</h3>
+              <button
+                onClick={() => setIsVideoPlaying(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <XMarkIcon className="h-8 w-8" />
+              </button>
             </div>
-            
-            {[
-              {
-                title: 'Product',
-                links: ['Features', 'Pricing', 'API Documentation', 'Integrations', 'Security']
-              },
-              {
-                title: 'Company',
-                links: ['About Us', 'Careers', 'Press', 'Partners', 'Contact']
-              },
-              {
-                title: 'Resources',
-                links: ['Blog', 'Help Center', 'Community', 'Webinars', 'Status']
-              }
-            ].map((section, index) => (
-              <div key={index}>
-                <h3 className="font-semibold mb-4">{section.title}</h3>
-                <ul className="space-y-2">
-                  {section.links.map((link, idx) => (
-                    <li key={idx}>
-                      <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+            <div className="aspect-video bg-gray-100 rounded-xl flex items-center justify-center">
+              <div className="text-center">
+                <PlayIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 text-lg">Healthcare platform demo video</p>
+                <p className="text-gray-500 text-sm">See how CareSync transforms patient care</p>
               </div>
-            ))}
-          </div>
-          
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col lg:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © 2025 CareSync. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 lg:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
             </div>
           </div>
         </div>
-      </footer>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;
