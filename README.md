@@ -2,9 +2,9 @@
 ![GSSoC Logo](/CareSync/src/assets/gssoc%20logo.png)
 
 <div align="center">
-**OverView**
- ***🌟 CareSync: Your Health, Simplified & Synced!***
-***🚀Where Open-Source Meets Healthcare Innovation***
+   **OverView**
+   ***🌟 CareSync: Your Health, Simplified & Synced!***
+   ***🚀Where Open-Source Meets Healthcare Innovation***
 </div>
 
 ---
@@ -117,7 +117,7 @@ Thanks to these amazing people who have contributed to the **CareSync** project:
 
 ---
 <div align="center">
-[🌐 **Do explore Live Demo**](https://care-sync-app.vercel.app/)
+[🌐 Do explore Live Demo](https://care-sync-app.vercel.app/)
 </div>
 
 ---
@@ -127,7 +127,7 @@ Feel free to open issues or discussions if you have any feedback, feature sugges
 ---
 ## 📄 License
 <div align="center">
-This project is licensed under the [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/akathedeveloper/CareSync/blob/main/License)
+This project is licensed under the ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/blob/main/License)
 </div>
 
 ---
@@ -170,7 +170,7 @@ Have ideas, feedback, or just want to say hi?
 
 ---
 <div align="center">
-[![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)](https://github.com/akathedeveloper/CareSync)
+![Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync)
 </div>
 
 ---
