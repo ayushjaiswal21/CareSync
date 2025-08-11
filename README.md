@@ -1,9 +1,8 @@
 # 🔐 CareSync
+
 ![GSSoC Logo](/CareSync/src/assets/gssoc%20logo.png)
 
-   **OverView**
-  ***🌟 CareSync: Your Health, Simplified & Synced!***
-  ***🚀Where Open-Source Meets Healthcare Innovation***
+  ***🌟 CareSync: Your Health, Simplified & Synced! 🚀Where Open-Source Meets Healthcare Innovation***
 
 ---
 > **💡 Tired of scattered medical records and endless paperwork?**  
@@ -14,9 +13,10 @@
 > *Built with cutting-edge tech—for everyone, by everyone.*  
 
 ---
-🤝 Join the Mission: Contribute, innovate, and make healthcare truly accessible—starting with a README edit!
+🤝 Join the Mission: Contribute, innovate, and make healthcare truly accessible!
+
 ---
-📂 Folder Structure
+**📂 Folder Structure**
 
 ```bash
 care-sync-app/
@@ -121,7 +121,7 @@ Feel free to open issues or discussions if you have any feedback, feature sugges
 
 ---
 ## 📄 License
-This project is licensed under the ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/blob/main/License)
+This project is licensed under the [License: MIT](https://github.com/akathedeveloper/CareSync/blob/main/License)
 
 ---
 ## 🌸 GirlScript Summer of Code 2025
@@ -130,22 +130,27 @@ This project is proudly part of **GSSoC '25**!
 ***Thanks to the amazing open-source community, contributors, and mentors for your valuable support.***
 
 ---
-## 📬 Contact
+## 💬 Support & Contact
 
 Have ideas, feedback, or just want to say hi?
 - 🛠️ Open an issue in the repository 
 
 ---
-<div align="center">
-## 🌟 Show Your Support
+**🌟 Show Your Support**
 
-**If CareSync has helped you, please consider:**
-- ⭐ **Star this repository**
-- 🍴 **Fork and contribute**
-- 📢 **Share with friends**
+If CareSync has helped you, please consider:
+* ⭐ **Star this repository**
+* 🍴 **Fork and contribute**
+* 📢 **Share with friends**
 
 ---
-<h1 align="center"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /> Give us a Star and let's make magic! <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Glowing Star" width="25" height="25" /></h1>
+## 💖 Star the Repo if You Like It!
+
+```
+⭐ Star us — it motivates us and helps others discover the project!
+```
+
+---
 <p align="center">
   Thank you for your support!
   <a href="https://github.com/akathedeveloper/CareSync/stargazers">
@@ -157,17 +162,15 @@ Have ideas, feedback, or just want to say hi?
 <div align="center">
     <a href="#top">
         <img src="https://img.shields.io/badge/Back%20to%20Top-000000?style=for-the-badge&logo=github&logoColor=white" alt="Back to Top">
-    </a><br>
+    </a>
+  <br>
      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mirror%20Ball.png" alt="Mirror Ball" width="150" height="150" />
 </div>
 
 ---
 
-  [Open Source Love](https://img.shields.io/badge/Open%20Source-%E2%9D%A4%EF%B8%8F-blueviolet?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/)
-
----
  **👨‍💻 Developed By**
-**💚Adhiraj Singh💚**
+* **💚Adhiraj Singh💚**
 [GitHub](https://github.com/akathedeveloper/) | [LinkedIn](https://linkedin.com/in/akathedeveloper/)
 
 ###### [Back to Top](#top)
