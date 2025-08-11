@@ -116,19 +116,14 @@ Thanks to these amazing people who have contributed to the **CareSync** project:
 | **Open-source** | Your code impacts real lives | ❤️ |
 
 ---
-<div align="center">
 [🌐 Do explore Live Demo](https://care-sync-app.vercel.app/)
-</div>
-
 ---
 ## 💡 Suggestions & Feedback
 Feel free to open issues or discussions if you have any feedback, feature suggestions, or want to collaborate!
 
 ---
 ## 📄 License
-<div align="center">
 This project is licensed under the ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)(https://github.com/akathedeveloper/CareSync/blob/main/License)
-</div>
 
 ---
 ## 🌸 GirlScript Summer of Code 2025
@@ -161,12 +156,10 @@ Have ideas, feedback, or just want to say hi?
 </p>
 
 ---
-<div align="center">
     <a href="#top">
         <img src="https://img.shields.io/badge/Back%20to%20Top-000000?style=for-the-badge&logo=github&logoColor=white" alt="Back to Top">
     </a><br>
      <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Mirror%20Ball.png" alt="Mirror Ball" width="150" height="150" />
-</div>
 
 ---
 <div align="center">
