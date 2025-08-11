@@ -174,8 +174,8 @@ Have ideas, feedback, or just want to say hi?
 </div>
 
 ---
-<div align="center">
  **👨‍💻 Developed By**
 **💚Adhiraj Singh💚**
 [GitHub](https://github.com/akathedeveloper/) | [LinkedIn](https://linkedin.com/in/akathedeveloper/)
-</div>
+
+###### [Back to Top](#top)
