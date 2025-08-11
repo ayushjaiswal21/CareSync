@@ -10,7 +10,6 @@ import LoadingSpinner from '../../components/common/LoadingSpinner'
 
 const Register = () => {
   const { register } = useAuth()
-  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
