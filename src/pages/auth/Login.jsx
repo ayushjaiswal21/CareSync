@@ -6,7 +6,7 @@ import LoadingSpinner from '../../components/common/LoadingSpinner'
 import { patients, doctors, pharmacists } from '../../data/dummyData'
 
 const Login = () => {
-  const { login } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -29,7 +29,6 @@ const Login = () => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     try {
       const result = await login(formData.email, formData.password, formData.role)
       if (result.success) {
@@ -42,12 +41,26 @@ const Login = () => {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true)
+      const result = await loginWithGoogle()
+      if (result.success) {
+        navigate(`/${result.user.role}`)
+      }
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const fillDemoCredentials = (role) => {
-    let user;
-    if (role === 'patient') user = patients[0];
-    if (role === 'doctor') user = doctors[0];
-    if (role === 'pharmacist') user = pharmacists[0];
-    
+    let user
+    if (role === 'patient') user = patients[0]
+    if (role === 'doctor') user = doctors[0]
+    if (role === 'pharmacist') user = pharmacists[0]
+
     setFormData({
       email: user.email,
       password: user.password,
@@ -74,7 +87,7 @@ const Login = () => {
           </p>
         </div>
 
-        <div className="bg-blue-50 border-l-4 border-emerald-400 text-emerald-700 p-4 rounded-lg">
+<div className="bg-blue-50 border-l-4 border-emerald-400 text-emerald-700 p-4 rounded-lg">
           <h3 className="text-sm font-bold mb-2">Demo Credentials:</h3>
           <div className="space-y-2 text-xs">
             <button 
