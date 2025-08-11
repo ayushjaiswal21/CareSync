@@ -39,13 +39,17 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
-                <HeartIcon className="h-6 w-6 text-white" />
-              </div>
-              <span className="ml-3 text-2xl font-bold text-gray-900">
-                CareSync
-              </span>
-            </div>
+  <div className="w-10 h-10">
+    <img 
+      src="/CareSync-Logo.png" 
+      alt="CareSync Logo" 
+      className="w-full h-full"
+    />
+  </div>
+  <span className="ml-3 font-bold text-emerald-600" style={{ fontSize: '1.375rem' }}>
+    CareSync
+  </span>
+</div>
 
             {/* Desktop Menu */}
             <div className="hidden md:block">
