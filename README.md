@@ -206,8 +206,31 @@ If CareSync has helped you, please consider:
 
 ---
 
- **👨‍💻 Developed By**
-* **💚Adhiraj Singh💚**
-[GitHub](https://github.com/akathedeveloper/) | [LinkedIn](https://linkedin.com/in/akathedeveloper/)
+<h2 align="center">👨‍💻 Project Admin</h2>
+
+<p align="center" style="margin-top: 10px; font-size: 1.3em; font-weight: bold;">
+  💚 Adhiraj Singh 💚
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c80a51d8-5c92-4660-818a-7efb55f70fa0" 
+       alt="Adhiraj Singh"
+       style="border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.15); max-width: 80%; height: auto;"/>
+</p>
+
+<p align="center" style="margin-top: 15px;">
+  <a href="https://github.com/akathedeveloper/">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+  <a href="https://linkedin.com/in/akathedeveloper/">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+  </a>
+</p>
+
+<p align="center">
+  <sub>Made with ❤️ by Adhiraj Singh & Contributors</sub>
+</p>
+
+
 
 ###### [Back to Top](#top)
