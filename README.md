@@ -1,8 +1,45 @@
 # 🔐 CareSync
 
-![GSSoC Logo](https://github.com/akathedeveloper/CareSync/blob/main/src/assets/gssoc%20logo.png)
 
-  ***🌟 CareSync: Your Health, Simplified & Synced! 🚀Where Open-Source Meets Healthcare Innovation***
+<p align="center">
+  <b>This project is now OFFICIALLY accepted for:</b>
+</p>
+
+
+<div align="center">
+  <img src="https://github.com/apu52/METAVERSE/assets/114172928/e79eb6de-81b1-4ffb-b6ed-f018bb977e88" alt="GSSOC" width="80%">
+</div>
+
+
+  **📊 Project Insights**
+
+<table align="center">
+    <thead align="center">
+        <tr>
+            <td><b>🌟 Stars</b></td>
+            <td><b>🍴 Forks</b></td>
+            <td><b>🐛 Issues</b></td>
+            <td><b>🔔 Open PRs</b></td>
+            <td><b>🔕 Closed PRs</b></td>
+            <td><b>🛠️ Languages</b></td>
+            <td><b>👥 Contributors</b></td>
+        </tr>
+     </thead>
+    <tbody>
+         <tr>
+            <td><img alt="Stars" src="https://img.shields.io/github/stars/akathedeveloper/CareSync?style=flat&logo=github"/></td>
+            <td><img alt="Forks" src="https://img.shields.io/github/forks/akathedeveloper/CareSync?style=flat&logo=github"/></td>
+            <td><img alt="Issues" src="https://img.shields.io/github/issues/akathedeveloper/CareSync?style=flat&logo=github"/></td>
+            <td><img alt="Open PRs" src="https://img.shields.io/github/issues-pr/akathedeveloper/CareSync?style=flat&logo=github"/></td>
+            <td><img alt="Closed PRs" src="https://img.shields.io/github/issues-pr-closed/akathedeveloper/CareSync?style=flat&color=critical&logo=github"/></td>
+            <td><img alt="Languages Count" src="https://img.shields.io/github/languages/count/akathedeveloper/CareSync?style=flat&color=green&logo=github"></td>
+            <td><img alt="Contributors Count" src="https://img.shields.io/github/contributors/akathedeveloper/CareSync?style=flat&color=blue&logo=github"/></td>
+        </tr>
+    </tbody>
+</table>
+
+
+---
 
 ---
 > **💡 Tired of scattered medical records and endless paperwork?**  
