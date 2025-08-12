@@ -11,6 +11,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -49,7 +50,7 @@ const Register = () => {
       setError("Phone number must be exactly 10 digits.");
       return;
     }
-
+    
     // Password length check
     if (formData.password.length < 8) {
       setError("Password must be at least 8 characters long.");
@@ -327,7 +328,6 @@ const Register = () => {
               </a>
             </label>
           </div>
-
           {/* SUBMIT */}
           <button
             type="submit"
