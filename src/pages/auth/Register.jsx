@@ -36,8 +36,44 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Password match check
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match!");
+      return;
+    }
+
+    // Phone number must be exactly 10 digits
+    const cleanedPhone = formData.phone.replace(/\D/g, "");
+    if (cleanedPhone.length !== 10) {
+      setError("Phone number must be exactly 10 digits.");
+      return;
+    }
+
+    // Password length check
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
+    // Password must have uppercase, lowercase, number, and special char
+    let hasUppercase = false;
+    let hasLowercase = false;
+    let hasNumber = false;
+    let hasSpecial = false;
+    const specials = "!@#$%^&*()_+[]{}|;:',.<>?/`~";
+
+    for (let char of formData.password) {
+      if (char >= "A" && char <= "Z") hasUppercase = true;
+      else if (char >= "a" && char <= "z") hasLowercase = true;
+      else if (char >= "0" && char <= "9") hasNumber = true;
+      else if (specials.includes(char)) hasSpecial = true;
+    }
+
+    if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
+      setError(
+        "Password must contain uppercase, lowercase, number, and special character."
+      );
       return;
     }
 
@@ -250,7 +286,6 @@ const Register = () => {
                 )}
               </button>
             </div>
-
             <div className="relative">
               <input
                 id="confirmPassword"
