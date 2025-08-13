@@ -27,6 +27,7 @@ import StatsSection from "./StatsSection";
 import Pricing from "./PriceSection";
 import Testimonials from "./Testimonials";
 import Footer from "./Footer";
+import Contributor from "../components/common/Contributor";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -472,7 +473,8 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
+      {/* Contributor */}
+      <Contributor/>
       {/* Footer */}
       <Footer />
 
