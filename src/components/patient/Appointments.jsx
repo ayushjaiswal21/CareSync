@@ -267,12 +267,6 @@ const Appointments = () => {
         {/* Appointments Grid */}
         <div className="mb-12">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Scheduled Appointments
-            </h2>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {patientAppointments.length} appointment{patientAppointments.length !== 1 ? 's' : ''}
-            </span>
           </div>
 
           {patientAppointments.length > 0 ? (
@@ -366,6 +360,7 @@ const Appointments = () => {
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
+                    onClick={(e) => e.target.showPicker?.()}
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full pl-10 pr-4 py-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 cursor-pointer"
                     required
