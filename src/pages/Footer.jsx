@@ -4,6 +4,8 @@ import {
   BriefcaseIcon,
   BookOpenIcon,
 } from "@heroicons/react/24/outline";
+import { ChevronDoubleUpIcon } from '@heroicons/react/24/solid';
+import React, { useState } from "react";
 
 export default function Footer() {
   const linkSections = [
@@ -21,8 +23,25 @@ export default function Footer() {
     },
   ];
 
+  const [isVisible, setIsVisible] = React.useState(false);
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <footer id="contact" className="bg-gray-900 text-white w-full z-50">
+      { isVisible && <button 
+    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    className='fixed h-10 w-10 text-xl z-1000 bottom-8 right-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-2 rounded-lg font-bold cursor-pointer hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:scale-110 transition-colors'>
+    <ChevronDoubleUpIcon/>   </button>}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         {/* Top Section */}
