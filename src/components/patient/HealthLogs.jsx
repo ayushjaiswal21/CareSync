@@ -1,17 +1,5 @@
-// src/components/patient/HealthLogs.jsx
 import React, { useMemo, useState, useEffect } from 'react'
 import { PlusIcon, FunnelIcon, ArrowDownTrayIcon, TrashIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
-
-/**
- * HealthLogs — upgraded:
- * - add / edit / delete entries (modal)
- * - filters (type, date range, search)
- * - summary cards + log-type breakdown
- * - CSV export for vitals
- * - dummy data
- *
- * No charts, no external libs.
- */
 
 // --- Dummy initial data
 const initialVitals = [
@@ -27,11 +15,9 @@ const initialSymptoms = [
   { id: 102, date: '2024-07-05', symptom: 'Fatigue', severity: 'moderate', notes: 'Tired in morning' },
 ]
 
-// simple uid
 let uid = 200
 const nextId = () => ++uid
 
-// Utilities
 const parseDateKey = (d) => {
   if (!d) return null
   const dt = new Date(d)
@@ -39,7 +25,6 @@ const parseDateKey = (d) => {
   return dt.toISOString().slice(0, 10)
 }
 
-// very small parser to detect bp "120/80"
 const parseBP = (s) => {
   if (!s || typeof s !== 'string') return null
   const parts = s.split('/').map(p => Number(p.trim()))
@@ -49,11 +34,9 @@ const parseBP = (s) => {
   return null
 }
 
-// auto status detection for some vitals
 const detectStatus = ({ type, value }) => {
   if (!type || value == null) return 'normal'
   const t = type.toLowerCase()
-  // blood pressure
   if (t.includes('blood pressure')) {
     const bp = parseBP(String(value))
     if (!bp) return 'unknown'
@@ -61,7 +44,6 @@ const detectStatus = ({ type, value }) => {
     if (bp.sys <= 90 || bp.dia <= 60) return 'low'
     return 'normal'
   }
-  // heart rate (bpm) - numeric
   if (t.includes('heart')) {
     const n = Number(String(value).replace(/[^0-9.]/g, ''))
     if (Number.isNaN(n)) return 'unknown'
@@ -69,14 +51,12 @@ const detectStatus = ({ type, value }) => {
     if (n < 50) return 'low'
     return 'normal'
   }
-  // temperature (F)
   if (t.includes('temperature') || t.includes('temp')) {
     const n = Number(String(value).replace(/[^0-9.]/g, ''))
     if (Number.isNaN(n)) return 'unknown'
     if (n >= 100.4) return 'high'
     return 'normal'
   }
-  // blood sugar (mg/dL) - simple thresholds
   if (t.includes('blood sugar') || t.includes('glucose')) {
     const n = Number(String(value).replace(/[^0-9.]/g, ''))
     if (Number.isNaN(n)) return 'unknown'
@@ -84,14 +64,11 @@ const detectStatus = ({ type, value }) => {
     if (n < 70) return 'low'
     return 'normal'
   }
-  // weight / generic numeric -> normal by default
   return 'normal'
 }
 
-// CSV helper
 const toCSV = (rows) => {
   return rows.map(r => r.map(cell => {
-    // escape double quotes by doubling them
     const s = String(cell ?? '')
     if (s.includes(',') || s.includes('"') || s.includes('\n')) {
       return `"${s.replace(/"/g, '""')}"`
@@ -101,14 +78,13 @@ const toCSV = (rows) => {
 }
 
 const HealthLogs = () => {
-  const [activeTab, setActiveTab] = useState('vitals') // 'vitals' or 'symptoms'
+  const [activeTab, setActiveTab] = useState('vitals')
   const [vitals, setVitals] = useState(initialVitals)
   const [symptoms, setSymptoms] = useState(initialSymptoms)
 
-  // modal state (shared add/edit)
   const [modalOpen, setModalOpen] = useState(false)
-  const [editing, setEditing] = useState(null) // { kind: 'vital'|'symptom', id, data }
-  const [form, setForm] = useState({ // generic form
+  const [editing, setEditing] = useState(null)
+  const [form, setForm] = useState({
     kind: 'vital',
     date: parseDateKey(new Date()),
     type: 'Heart Rate',
@@ -120,13 +96,11 @@ const HealthLogs = () => {
     notes: '',
   })
 
-  // filters
   const [filterType, setFilterType] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [searchText, setSearchText] = useState('')
 
-  // derived lists based on filters/search
   const filteredVitals = useMemo(() => {
     const from = parseDateKey(dateFrom)
     const to = parseDateKey(dateTo)
@@ -156,19 +130,16 @@ const HealthLogs = () => {
     }).sort((a,b)=> b.date.localeCompare(a.date))
   }, [symptoms, dateFrom, dateTo, searchText])
 
-  // Summaries
   const summary = useMemo(() => {
     const allLogs = [...vitals, ...symptoms]
     const total = allLogs.length
     const abnormal = vitals.filter(v => v.status && v.status !== 'normal').length
     const lastLog = allLogs.length ? allLogs.reduce((a,b)=> a.date > b.date ? a : b).date : '--'
-    // most common vital type
     const typeCounts = vitals.reduce((acc, v) => { acc[v.type] = (acc[v.type]||0)+1; return acc }, {})
     const mostCommonType = Object.keys(typeCounts).length ? Object.entries(typeCounts).sort((a,b)=> b[1]-a[1])[0][0] : '--'
     return { total, abnormal, lastLog, mostCommonType, typeCounts }
   }, [vitals, symptoms])
 
-  // Helpers: open modal for add or edit
   const openAddModal = (kind = 'vital') => {
     setEditing(null)
     setForm({
@@ -176,7 +147,7 @@ const HealthLogs = () => {
       date: parseDateKey(new Date()),
       type: kind === 'vital' ? 'Heart Rate' : '',
       value: '',
-      unit: kind === 'vital' ? ( 'bpm' ) : '',
+      unit: kind === 'vital' ? 'bpm' : '',
       status: '',
       symptom: '',
       severity: 'mild',
@@ -206,10 +177,8 @@ const HealthLogs = () => {
     setEditing(null)
   }
 
-  // Add or save
   const handleSave = () => {
     if (form.kind === 'vital') {
-      // basic validation
       if (!form.type || !form.date || !form.value) {
         alert('Please provide date, type and value for the vital sign.')
         return
@@ -223,7 +192,6 @@ const HealthLogs = () => {
         setVitals(prev => [newEntry, ...prev])
       }
     } else {
-      // symptom
       if (!form.symptom || !form.date) {
         alert('Please provide symptom and date.')
         return
@@ -235,18 +203,15 @@ const HealthLogs = () => {
         setSymptoms(prev => [newSym, ...prev])
       }
     }
-
     closeModal()
   }
 
-  // Delete
   const handleDelete = (kind, id) => {
     if (!window.confirm('Delete this entry? This cannot be undone.')) return
     if (kind === 'vital') setVitals(prev => prev.filter(v => v.id !== id))
     else setSymptoms(prev => prev.filter(s => s.id !== id))
   }
 
-  // CSV export only vitals (as requested)
   const exportCSV = () => {
     const rows = [['Date', 'Type', 'Value', 'Unit', 'Status'], ...vitals.map(v => [v.date, v.type, v.value, v.unit, v.status])]
     const csv = toCSV(rows)
@@ -259,13 +224,11 @@ const HealthLogs = () => {
     link.remove()
   }
 
-  // available types for filter dropdown (from current vitals)
   const vitalTypes = useMemo(() => {
     const set = new Set(vitals.map(v => v.type))
     return ['all', ...Array.from(set)]
   }, [vitals])
 
-  // small effect: when tab changes reset filters
   useEffect(()=> {
     setFilterType('all')
     setDateFrom('')
@@ -286,7 +249,6 @@ const HealthLogs = () => {
             <PlusIcon className="h-5 w-5" />
             <span>Add Entry</span>
           </button>
-
           {activeTab === 'vitals' && (
             <button
               onClick={exportCSV}
@@ -305,24 +267,21 @@ const HealthLogs = () => {
           <p className="text-sm text-gray-500">Total Logs</p>
           <p className="text-lg font-semibold">{summary.total}</p>
         </div>
-
         <div className="bg-white p-4 rounded-lg shadow-sm border">
           <p className="text-sm text-gray-500">Abnormal Vitals</p>
           <p className="text-lg font-semibold">{summary.abnormal}</p>
         </div>
-
         <div className="bg-white p-4 rounded-lg shadow-sm border">
           <p className="text-sm text-gray-500">Last Log Date</p>
           <p className="text-lg font-semibold">{summary.lastLog || '--'}</p>
         </div>
-
         <div className="bg-white p-4 rounded-lg shadow-sm border">
           <p className="text-sm text-gray-500">Top Vital Type</p>
           <p className="text-lg font-semibold">{summary.mostCommonType || '--'}</p>
         </div>
       </div>
 
-      {/* Type breakdown (no charts) */}
+      {/* Type breakdown */}
       <div className="bg-white p-4 rounded-lg shadow-sm border">
         <h4 className="font-medium mb-3">Log Type Breakdown</h4>
         <div className="flex flex-wrap gap-2">
@@ -350,7 +309,6 @@ const HealthLogs = () => {
           >
             Vital Signs
           </button>
-
           <button
             onClick={() => setActiveTab('symptoms')}
             className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
@@ -403,23 +361,22 @@ const HealthLogs = () => {
                   <h4 className="font-medium text-gray-900">{v.type}</h4>
                   <p className="text-sm text-gray-500">{v.date}</p>
                 </div>
-
-                <div className="text-right flex items-center gap-4">
-                  <div>
-                    <p className="font-semibold text-gray-900">{v.value} <span className="text-sm text-gray-600">{v.unit}</span></p>
-                    <span className={`inline-flex px-2 py-1 text-xs rounded-full ${
-                      v.status === 'normal' ? 'bg-green-100 text-green-800' :
-                      v.status === 'high' ? 'bg-red-100 text-red-800' :
-                      'bg-yellow-100 text-yellow-800'
-                    }`}>{v.status}</span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button title="Edit" onClick={() => openEditModal('vital', v)} className="p-2 rounded-lg hover:bg-white/50">
-                      <PencilSquareIcon className="h-5 w-5 text-gray-600" />
+                <div className="flex items-center gap-6">
+                  <p className="text-lg font-semibold">{v.value} {v.unit}</p>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    v.status === 'normal' ? 'bg-green-100 text-green-800'
+                    : v.status === 'high' ? 'bg-red-100 text-red-800'
+                    : v.status === 'low' ? 'bg-yellow-100 text-yellow-800'
+                    : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {v.status || 'unknown'}
+                  </span>
+                  <div className="flex gap-2">
+                    <button onClick={() => openEditModal('vital', v)} className="p-1 hover:bg-gray-200 rounded">
+                      <PencilSquareIcon className="h-5 w-5 text-gray-500" />
                     </button>
-                    <button title="Delete" onClick={() => handleDelete('vital', v.id)} className="p-2 rounded-lg hover:bg-white/50">
-                      <TrashIcon className="h-5 w-5 text-red-600" />
+                    <button onClick={() => handleDelete('vital', v.id)} className="p-1 hover:bg-gray-200 rounded">
+                      <TrashIcon className="h-5 w-5 text-red-500" />
                     </button>
                   </div>
                 </div>
@@ -431,28 +388,28 @@ const HealthLogs = () => {
         {activeTab === 'symptoms' && (
           <div className="p-6 space-y-4">
             {filteredSymptoms.length === 0 && <div className="text-center text-gray-500 py-8">No symptoms match your filters.</div>}
-            {filteredSymptoms.map(s => (
-              <div key={s.id} className="p-4 bg-gray-50 rounded-lg">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-medium text-gray-900">{s.symptom}</h4>
-                    <p className="text-sm text-gray-500">{s.date}</p>
-                    <p className="text-sm mt-2">{s.notes}</p>
-                  </div>
-                  <div className="text-right flex flex-col items-end gap-3">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      s.severity === 'mild' ? 'bg-green-100 text-green-800' :
-                      s.severity === 'moderate' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>{s.severity}</span>
-                    <div className="flex items-center gap-2">
-                      <button title="Edit" onClick={() => openEditModal('symptom', s)} className="p-2 rounded-lg hover:bg-white/50">
-                        <PencilSquareIcon className="h-5 w-5 text-gray-600" />
-                      </button>
-                      <button title="Delete" onClick={() => handleDelete('symptom', s.id)} className="p-2 rounded-lg hover:bg-white/50">
-                        <TrashIcon className="h-5 w-5 text-red-600" />
-                      </button>
-                    </div>
+            {filteredSymptoms.map((s) => (
+              <div key={s.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900">{s.symptom}</h4>
+                  <p className="text-sm text-gray-500">{s.date}</p>
+                  {s.notes && <p className="text-sm text-gray-400">{s.notes}</p>}
+                </div>
+                <div className="flex items-center gap-6">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    s.severity === 'mild' ? 'bg-green-100 text-green-800'
+                    : s.severity === 'moderate' ? 'bg-yellow-100 text-yellow-800'
+                    : 'bg-red-100 text-red-800'
+                  }`}>
+                    {s.severity}
+                  </span>
+                  <div className="flex gap-2">
+                    <button onClick={() => openEditModal('symptom', s)} className="p-1 hover:bg-gray-200 rounded">
+                      <PencilSquareIcon className="h-5 w-5 text-gray-500" />
+                    </button>
+                    <button onClick={() => handleDelete('symptom', s.id)} className="p-1 hover:bg-gray-200 rounded">
+                      <TrashIcon className="h-5 w-5 text-red-500" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -461,94 +418,76 @@ const HealthLogs = () => {
         )}
       </div>
 
-      {/* Modal (Add / Edit) */}
+      {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-lg rounded-lg shadow-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold">{editing ? 'Edit Entry' : 'Add New Entry'}</h3>
-              <button onClick={closeModal} className="text-gray-500">Close</button>
-            </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-lg">
+            <h3 className="text-lg font-semibold mb-4">{editing ? 'Edit Entry' : 'Add Entry'}</h3>
 
-            <div className="space-y-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <label className="flex flex-col">
-                  <span className="text-sm text-gray-600">Date</span>
-                  <input type="date" value={form.date} onChange={e => setForm(f => ({...f, date: e.target.value}))} className="border rounded-lg px-3 py-2" />
-                </label>
-
-                <label className="flex flex-col">
-                  <span className="text-sm text-gray-600">Kind</span>
-                  <select value={form.kind} onChange={e => setForm(f => ({...f, kind: e.target.value}))} className="border rounded-lg px-3 py-2">
-                    <option value="vital">Vital</option>
-                    <option value="symptom">Symptom</option>
-                  </select>
-                </label>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" />
               </div>
 
-              {form.kind === 'vital' ? (
+              {form.kind === 'vital' && (
                 <>
-                  <label className="flex flex-col">
-                    <span className="text-sm text-gray-600">Type</span>
-                    <input value={form.type} onChange={e => setForm(f => ({...f, type: e.target.value}))} className="border rounded-lg px-3 py-2" />
-                  </label>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <label className="flex flex-col">
-                      <span className="text-sm text-gray-600">Value</span>
-                      <input value={form.value} onChange={e => setForm(f => ({...f, value: e.target.value}))} className="border rounded-lg px-3 py-2" placeholder="e.g. 120/80 or 72" />
-                    </label>
-
-                    <label className="flex flex-col">
-                      <span className="text-sm text-gray-600">Unit</span>
-                      <input value={form.unit} onChange={e => setForm(f => ({...f, unit: e.target.value}))} className="border rounded-lg px-3 py-2" placeholder="e.g. mmHg, bpm" />
-                    </label>
-
-                    <label className="flex flex-col">
-                      <span className="text-sm text-gray-600">Status</span>
-                      <select value={form.status || 'auto'} onChange={e => setForm(f => ({...f, status: e.target.value}))} className="border rounded-lg px-3 py-2">
-                        <option value="auto">Auto detect</option>
-                        <option value="normal">Normal</option>
-                        <option value="high">High</option>
-                        <option value="low">Low</option>
-                      </select>
-                    </label>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                    <input type="text" value={form.type} onChange={e => setForm(f => ({ ...f, type: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" />
                   </div>
-                </>
-              ) : (
-                <>
-                  <label className="flex flex-col">
-                    <span className="text-sm text-gray-600">Symptom</span>
-                    <input value={form.symptom} onChange={e => setForm(f => ({...f, symptom: e.target.value}))} className="border rounded-lg px-3 py-2" placeholder="e.g. Headache" />
-                  </label>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <label className="flex flex-col">
-                      <span className="text-sm text-gray-600">Severity</span>
-                      <select value={form.severity} onChange={e => setForm(f => ({...f, severity: e.target.value}))} className="border rounded-lg px-3 py-2">
-                        <option value="mild">Mild</option>
-                        <option value="moderate">Moderate</option>
-                        <option value="severe">Severe</option>
-                      </select>
-                    </label>
-
-                    <label className="flex flex-col">
-                      <span className="text-sm text-gray-600">Notes</span>
-                      <input value={form.notes} onChange={e => setForm(f => ({...f, notes: e.target.value}))} className="border rounded-lg px-3 py-2" placeholder="Short notes" />
-                    </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Value</label>
+                      <input type="text" value={form.value} onChange={e => setForm(f => ({ ...f, value: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                      <input type="text" value={form.unit} onChange={e => setForm(f => ({ ...f, unit: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="border rounded-lg px-3 py-2 w-full">
+                      <option value="auto">Auto-detect</option>
+                      <option value="normal">Normal</option>
+                      <option value="high">High</option>
+                      <option value="low">Low</option>
+                      <option value="unknown">Unknown</option>
+                    </select>
                   </div>
                 </>
               )}
 
-              <div className="flex justify-end gap-2 mt-3">
-                <button onClick={closeModal} className="px-4 py-2 bg-gray-200 rounded-lg">Cancel</button>
-                <button onClick={handleSave} className="px-4 py-2 bg-blue-600 text-white rounded-lg">{editing ? 'Save changes' : 'Add entry'}</button>
-              </div>
+              {form.kind === 'symptom' && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Symptom</label>
+                    <input type="text" value={form.symptom} onChange={e => setForm(f => ({ ...f, symptom: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Severity</label>
+                    <select value={form.severity} onChange={e => setForm(f => ({ ...f, severity: e.target.value }))} className="border rounded-lg px-3 py-2 w-full">
+                      <option value="mild">Mild</option>
+                      <option value="moderate">Moderate</option>
+                      <option value="severe">Severe</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                    <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} className="border rounded-lg px-3 py-2 w-full" rows="3" />
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button onClick={closeModal} className="px-4 py-2 border rounded-lg">Cancel</button>
+              <button onClick={handleSave} className="btn-primary">Save</button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   )
 }
