@@ -1,19 +1,21 @@
-import React, { useMemo }  const getStatusClass = (status) => {
-    switch (status) {
-      case "completed":
-        return "bg-medical-500 dark:bg-medical-600";
-      case "pending":
-        return "bg-yellow-500 dark:bg-yellow-600";
-      case "cancelled":
-      case "rejected":
-        return "bg-red-500 dark:bg-red-600";
-      default:
-        return "bg-gray-500 dark:bg-gray-600";
-    }
-  };;
+import React, { useMemo } from "react";
 import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { findPatientById } from "../../data/dummyData";
+
+const getStatusClass = (status) => {
+  switch (status) {
+    case "completed":
+      return "bg-medical-500 dark:bg-medical-600";
+    case "pending":
+      return "bg-yellow-500 dark:bg-yellow-600";
+    case "cancelled":
+    case "rejected":
+      return "bg-red-500 dark:bg-red-600";
+    default:
+      return "bg-gray-500 dark:bg-gray-600";
+  }
+};
 
 const Schedule = () => {
   const { user } = useAuth();
