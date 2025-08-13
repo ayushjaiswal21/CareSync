@@ -2,20 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   CheckIcon,
-  StarIcon,
   PlayIcon,
   ArrowRightIcon,
   ShieldCheckIcon,
-  ClockIcon,
   UsersIcon,
-  ChartBarIcon,
   HeartIcon,
-  DevicePhoneMobileIcon,
-  CloudIcon,
-  LockClosedIcon,
-  XMarkIcon,
-  Bars3Icon,
-  CalendarDaysIcon,
   BellIcon,
   UserGroupIcon,
   DocumentTextIcon,
@@ -23,6 +14,9 @@ import {
   ExclamationTriangleIcon,
   MoonIcon,
   SunIcon,
+  Bars3Icon,
+  XMarkIcon,
+  CalendarDaysIcon
 } from "@heroicons/react/24/outline";
 import { Typewriter } from "react-simple-typewriter";
 import StatsSection from "./StatsSection";
@@ -32,10 +26,33 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 
+// Import the new CalendarModal component from the correct path
+import CalendarModal from "../components/common/CalendarModal";
+
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // State to manage the visibility of the calendar modal
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+
+  // Handler to open the calendar modal
+  const handleScheduleDemoClick = () => {
+    setIsCalendarOpen(true);
+  };
+
+  // Handler to close the calendar modal
+  const handleCalendarClose = () => {
+    setIsCalendarOpen(false);
+  };
+
+  // Handler for when a date is selected in the calendar
+  const handleDateSelection = (selectedDate) => {
+    console.log("Selected demo date:", selectedDate);
+    // You would typically send the selected date to an API here
+    // or perform a follow-up action.
+    setIsCalendarOpen(false); // Close the modal after selection
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -68,8 +85,8 @@ const LandingPage = () => {
                       key={item}
                       href={`#${item.toLowerCase()}`}
                       className="flex gap-2 items-center text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
-             after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
-             hover:after:scale-x-100"
+              after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
+              hover:after:scale-x-100"
                     >
                       {item}
                     </a>
@@ -129,8 +146,8 @@ const LandingPage = () => {
                     key={item}
                     href={`#${item.toLowerCase()}`}
                     className="block text-center py-3 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
-             after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
-             hover:after:scale-x-100"
+              after:content-[''] after:absolute after:left-0 after:bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
+              hover:after:scale-x-100"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {item}
@@ -205,8 +222,8 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl 
-                  flex items-center justify-center space-x-2 font-bold text-lg shadow-xl hover:shadow-2xl 
+                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl
+                  flex items-center justify-center space-x-2 font-bold text-lg shadow-xl hover:shadow-2xl
                   transition-all duration-300 transform hover:scale-105"
                 >
                   <span>Start Free Trial</span>
@@ -215,9 +232,9 @@ const LandingPage = () => {
 
                 <button
                   onClick={() => setIsVideoPlaying(true)}
-                  className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl 
+                  className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl
                   hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20
-                  flex items-center justify-center space-x-2 font-bold text-lg 
+                  flex items-center justify-center space-x-2 font-bold text-lg
                   transition-all duration-300 transform hover:scale-105"
                 >
                   <PlayIcon className="h-5 w-5" />
@@ -421,109 +438,6 @@ const LandingPage = () => {
       {/* Stats Section */}
       <StatsSection />
 
-      {/* Enhanced Features Section */}
-      <section
-        id="features"
-        className="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-gray-100 mb-6">
-              Complete Healthcare
-              <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                {" "}
-                Management Suite
-              </span>
-            </h2>
-            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto font-medium leading-relaxed">
-              From patient records to prescription management, everything
-              healthcare providers need in one secure platform
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: HeartIcon,
-                title: "Patient Care Portal",
-                description:
-                  "Comprehensive patient management with secure medical records, appointment scheduling, and health tracking.",
-                features: [
-                  "Electronic Health Records",
-                  "Appointment Management",
-                  "Medication Tracking",
-                  "Health Monitoring",
-                ],
-                gradient: "from-emerald-500 to-teal-600",
-              },
-              {
-                icon: UsersIcon,
-                title: "Doctor Dashboard",
-                description:
-                  "Powerful tools for healthcare providers with AI-assisted diagnosis and treatment planning.",
-                features: [
-                  "Patient Management",
-                  "AI Diagnosis Assistant",
-                  "Digital Prescriptions",
-                  "Clinical Analytics",
-                ],
-                gradient: "from-blue-500 to-indigo-600",
-              },
-              {
-                icon: ShieldCheckIcon,
-                title: "Pharmacy Network",
-                description:
-                  "Integrated pharmacy services with prescription processing and medication delivery.",
-                features: [
-                  "Prescription Processing",
-                  "Inventory Management",
-                  "Delivery Coordination",
-                  "Drug Interaction Alerts",
-                ],
-                gradient: "from-purple-500 to-pink-600",
-              },
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className="group transform hover:-translate-y-2 transition-all duration-300"
-              >
-                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 h-full hover:shadow-2xl hover:shadow-emerald-500/10 dark:hover:shadow-emerald-400/10 transition-all duration-500 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500 from-emerald-500 to-teal-600" />
-
-                  <div
-                    className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <feature.icon className="h-8 w-8 text-white" />
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg leading-relaxed">
-                    {feature.description}
-                  </p>
-
-                  <ul className="space-y-3">
-                    {feature.features.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-center text-gray-700 dark:text-gray-300 font-medium"
-                      >
-                        <div className="h-5 w-5 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mr-3">
-                          <CheckIcon className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
-                        </div>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Pricing Section */}
       <Pricing />
 
@@ -556,7 +470,11 @@ const LandingPage = () => {
               Start Free Trial Today
             </Link>
 
-            <button className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm transform hover:scale-105">
+            {/* This is the button that now correctly opens the modal */}
+            <button
+              onClick={handleScheduleDemoClick}
+              className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm transform hover:scale-105"
+            >
               Schedule Demo
             </button>
           </div>
@@ -616,6 +534,14 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Calendar Modal - Conditionally rendered */}
+      {isCalendarOpen && (
+        <CalendarModal
+          onClose={handleCalendarClose}
+          onSelectDate={handleDateSelection}
+        />
       )}
     </div>
   );
