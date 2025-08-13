@@ -40,7 +40,7 @@ export default function Footer() {
     <footer id="contact" className="bg-gray-900 text-white w-full z-50">
       { isVisible && <button 
     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-    className='fixed h-10 w-10 text-xl z-1000 bottom-8 right-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-2 rounded-lg font-bold cursor-pointer hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:scale-110 transition-colors'>
+  className='fixed h-10 w-10 text-xl z-1000 bottom-8 right-8 gradient-accent p-2 rounded-lg font-bold cursor-pointer hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:scale-110 transition-colors'>
     <ChevronDoubleUpIcon/>   </button>}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
@@ -50,7 +50,7 @@ export default function Footer() {
           {/* Brand + Social */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 gradient-accent rounded-xl flex items-center justify-center shadow-lg">
                 <HeartIcon className="h-6 w-6 text-white" />
               </div>
               <span className="ml-2 text-xl font-bold">CareSync</span>
@@ -118,7 +118,7 @@ export default function Footer() {
       />
       <button
         type="submit"
-        className="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600  text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
+  className="px-6 py-2.5 gradient-accent  text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
       >
         Subscribe
       </button>
@@ -132,7 +132,7 @@ export default function Footer() {
       />
       <button
         type="button"
-        className="mt-3 w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
+  className="mt-3 w-full py-2.5 gradient-accent text-white rounded-lg font-semibold transition-all duration-200 shadow-md text-sm"
       >
         Send Message
       </button>
