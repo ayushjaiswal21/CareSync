@@ -173,7 +173,7 @@ const Register = () => {
               value={formData.specialization}
               onChange={handleChange}
               placeholder="Specialization"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
             />
           </motion.div>
 
@@ -186,7 +186,7 @@ const Register = () => {
               value={formData.licenseNumber}
               onChange={handleChange}
               placeholder="Medical License Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
             />
           </motion.div>
 
@@ -198,7 +198,7 @@ const Register = () => {
               value={formData.experience}
               onChange={handleChange}
               placeholder="Years of Experience"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
             />
           </motion.div>
         </motion.div>
@@ -224,7 +224,7 @@ const Register = () => {
               value={formData.licenseNumber}
               onChange={handleChange}
               placeholder="Pharmacy License Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
             />
           </motion.div>
 
@@ -237,7 +237,7 @@ const Register = () => {
               value={formData.pharmacyName}
               onChange={handleChange}
               placeholder="Pharmacy Name"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
             />
           </motion.div>
 
@@ -250,7 +250,7 @@ const Register = () => {
               onChange={handleChange}
               rows={3}
               placeholder="Pharmacy Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none text-gray-900"
             />
           </motion.div>
         </motion.div>
@@ -451,7 +451,7 @@ const Register = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
               />
             </motion.div>
             <motion.div
@@ -467,49 +467,44 @@ const Register = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
               />
             </motion.div>
           </motion.div>
 
-          {/* CONTACT */}
-          <motion.div variants={itemVariants} className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <motion.input
-              name="email"
-              type="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-              whileFocus={{ scale: 1.02 }}
-            />
+          {/* EMAIL & PHONE */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <motion.div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <motion.input
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
+                whileFocus={{ scale: 1.02 }}
+              />
+            </motion.div>
+            <motion.div className="relative">
+              <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <motion.input
+                name="phone"
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
+                whileFocus={{ scale: 1.02 }}
+              />
+            </motion.div>
           </motion.div>
           
-          <motion.div variants={itemVariants} className="relative">
-            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <motion.input
-              name="phone"
-              type="tel"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-              whileFocus={{ scale: 1.02 }}
-            />
-          </motion.div>
-
-          {/* ROLE SPECIFIC */}
-          <AnimatePresence mode="wait" initial={false}>
-            {renderRoleSpecificFields()}
-          </AnimatePresence>
-
-
-          {/* PASSWORDS */}
-          <motion.div variants={itemVariants} className="space-y-4">
-            <div className="relative">
+          {/* PASSWORD FIELDS */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <motion.div className="relative">
               <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <motion.input
                 id="password"
@@ -519,7 +514,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -553,9 +548,9 @@ const Register = () => {
                   )}
                 </AnimatePresence>
               </motion.button>
-            </div>
+            </motion.div>
             
-            <div className="relative">
+            <motion.div className="relative">
               <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <motion.input
                 id="confirmPassword"
@@ -565,7 +560,7 @@ const Register = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-gray-900"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -599,8 +594,12 @@ const Register = () => {
                   )}
                 </AnimatePresence>
               </motion.button>
-            </div>
+            </motion.div>
           </motion.div>
+
+          <AnimatePresence mode="wait">
+            {renderRoleSpecificFields()}
+          </AnimatePresence>
 
           {/* TERMS */}
           <motion.div
@@ -729,4 +728,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register;
