@@ -180,7 +180,7 @@ const Login = () => {
             whileHover={{ rotate: 360 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
+            <div className="w-16 h-16 gradient-accent rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
               <motion.svg 
                 className="w-8 h-8 text-white" 
                 fill="none" 

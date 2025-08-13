@@ -39,12 +39,12 @@ const MedicineReminders = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+    <div className="bg-surface p-6 rounded-lg shadow-sm border border-subtle">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+        <h3 className="text-lg font-semibold text-default">
           Medicine Reminders
         </h3>
-        <button className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium">
+        <button className="text-primary hover:text-primary-700 text-sm font-medium">
           View All
         </button>
       </div>
@@ -55,8 +55,8 @@ const MedicineReminders = () => {
             key={reminder.id}
             className={`p-4 rounded-lg border-2 transition-colors ${
               reminder.taken
-                ? "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-900/20"
-                : "border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700 hover:border-primary-200 dark:hover:border-primary-500"
+                ? "border-medical-200 bg-medical-50/80 dark:border-medical-800 dark:bg-medical-900/20"
+                : "border-subtle bg-surface hover:border-primary-200 dark:hover:border-primary-500"
             }`}
           >
             <div className="flex justify-between items-start">

@@ -3,6 +3,20 @@ import { useAppointments } from "../../contexts/AppointmentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { findPatientById } from "../../data/dummyData";
 
+const getStatusClass = (status) => {
+  switch (status) {
+    case "completed":
+      return "bg-medical-500 dark:bg-medical-600";
+    case "pending":
+      return "bg-yellow-500 dark:bg-yellow-600";
+    case "cancelled":
+    case "rejected":
+      return "bg-red-500 dark:bg-red-600";
+    default:
+      return "bg-gray-500 dark:bg-gray-600";
+  }
+};
+
 const Schedule = () => {
   const { user } = useAuth();
   const { appointments, updateAppointmentStatus, cancelAppointment } =
@@ -41,14 +55,14 @@ const Schedule = () => {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-900/50 overflow-hidden relative">
       <div
         className={`absolute top-4 right-4 px-3 py-1 text-white text-xs font-bold rounded-full ${
-          apt.isUpcoming ? "bg-blue-500" : "bg-gray-500"
+          apt.isUpcoming ? "bg-primary-500 dark:bg-primary-600" : "bg-gray-500 dark:bg-gray-600"
         }`}
       >
         {apt.isUpcoming ? "Upcoming" : "Past"}
       </div>
       <div className={`h-2 ${getStatusClass(apt.status)}`}></div>
       <div className="p-6">
-        <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-100 mb-4">
+        <h3 className="text-2xl font-bold text-default mb-4">
           Patient: {apt.patient?.name || "N/A"}
         </h3>
         <p className="text-gray-600 dark:text-gray-300 mb-2">
