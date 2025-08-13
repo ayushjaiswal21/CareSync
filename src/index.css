@@ -46,6 +46,40 @@
 
 /* Custom component styles for CareSync */
 @layer components {
+  /* Color System Tokens */
+  .text-default {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  .text-muted {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+  .text-primary {
+    @apply text-primary-600 dark:text-primary-400;
+  }
+  .text-medical {
+    @apply text-medical-600 dark:text-medical-400;
+  }
+  
+  /* Background System */
+  .bg-surface {
+    @apply bg-white dark:bg-gray-900;
+  }
+  .bg-surface-hover {
+    @apply hover:bg-gray-50 dark:hover:bg-gray-800;
+  }
+  .bg-subtle {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+  
+  /* Border System */
+  .border-subtle {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  .border-primary {
+    @apply border-primary-500 dark:border-primary-400;
+  }
+  
+  /* Button System */
   .btn-primary {
     @apply px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors dark:focus:ring-offset-gray-900;
   }
