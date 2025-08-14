@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   CheckIcon,
@@ -53,6 +53,14 @@ const LandingPage = () => {
     // or perform a follow-up action.
     setIsCalendarOpen(false); // Close the modal after selection
   };
+
+  useEffect(() => {   // handle the no-scroll CSS class in the <body>
+    if (isMobileMenuOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">

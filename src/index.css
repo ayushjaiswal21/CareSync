@@ -13,6 +13,12 @@
     @apply text-gray-900 bg-gray-50 dark:text-gray-100 dark:bg-gray-950;
   }
 
+  body.no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
   /* Dark mode select dropdown styling - more specific rules */
   select {
     @apply bg-white text-gray-900;
