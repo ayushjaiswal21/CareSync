@@ -8,10 +8,6 @@ const Appointments = () => {
   const { user } = useAuth();
   const { appointments, doctors, bookAppointment } = useAppointments();
 
-  // Debug logging
-  console.log("Appointments component - doctors:", doctors);
-  console.log("Appointments component - user:", user);
-
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -22,7 +18,6 @@ const Appointments = () => {
   const doctorRef = useRef(null);
   const timeRef = useRef(null);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (doctorRef.current && !doctorRef.current.contains(event.target)) {
@@ -32,10 +27,14 @@ const Appointments = () => {
         setIsTimeOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Clear selected time when date or doctor changes to ensure consistency
+  useEffect(() => {
+    setSelectedTime("");
+  }, [selectedDate, selectedDoctor]);
 
   const patientAppointments = useMemo(() => {
     const now = new Date();
@@ -164,16 +163,6 @@ const Appointments = () => {
     disabled = false,
     icon: Icon,
   }) => {
-    console.log(
-      "CustomSelect render - options:",
-      options,
-      "value:",
-      value,
-      "isOpen:",
-      isOpen
-    );
-
-    // Find the selected option to display the label instead of the value
     const selectedOption = options?.find((option) => option.value === value);
     const displayValue = selectedOption ? selectedOption.label : value;
 
@@ -214,7 +203,6 @@ const Appointments = () => {
                   key={option.value}
                   type="button"
                   onClick={() => {
-                    console.log("Option clicked:", option);
                     onChange(option.value);
                     setIsOpen(false);
                   }}
@@ -241,34 +229,68 @@ const Appointments = () => {
       }))
     : [];
 
-  const timeOptions = selectedDoctor
-    ? doctors
-        .find((d) => d.id === selectedDoctor)
-        ?.availability?.map((time) => ({
-          value: time,
-          label: time,
-        })) || []
-    : [];
+  // Enhanced time filtering logic with better current time handling
+  const timeOptions = useMemo(() => {
+    if (!selectedDoctor || !selectedDate) return [];
 
-  console.log("doctorOptions:", doctorOptions);
-  console.log("timeOptions:", timeOptions);
-  console.log("selectedDoctor:", selectedDoctor);
+    const doctor = doctors.find((d) => d.id === selectedDoctor);
+    if (!doctor?.availability) return [];
+
+    const now = new Date();
+    const todayString = now.toISOString().split('T')[0];
+    const isToday = selectedDate === todayString;
+
+    return doctor.availability
+      .filter((timeSlot) => {
+        if (!isToday) return true;
+        
+        // Parse the time slot - handle different formats
+        let hours, minutes;
+        
+        // Handle formats like "09:00", "9:00 AM", "2:00 PM", etc.
+        if (timeSlot.includes('AM') || timeSlot.includes('PM')) {
+          // Handle 12-hour format
+          const timeOnly = timeSlot.replace(/\s*(AM|PM)/i, '');
+          [hours, minutes] = timeOnly.split(':').map(Number);
+          const isPM = timeSlot.toUpperCase().includes('PM');
+          
+          if (isPM && hours !== 12) {
+            hours += 12;
+          } else if (!isPM && hours === 12) {
+            hours = 0;
+          }
+        } else {
+          // Handle 24-hour format
+          [hours, minutes] = timeSlot.split(':').map(Number);
+        }
+        
+        // Get current time in minutes since midnight
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+        const currentTotalMinutes = currentHours * 60 + currentMinutes;
+        
+        // Get slot time in minutes since midnight
+        const slotTotalMinutes = hours * 60 + (minutes || 0);
+        
+        // Only show time slots that are greater than current time
+        return slotTotalMinutes > currentTotalMinutes;
+      })
+      .map((time) => ({
+        value: time,
+        label: time,
+      }));
+  }, [selectedDoctor, selectedDate, doctors]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Your Appointments
           </h1>
         </div>
 
-        {/* Appointments Grid */}
         <div className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-          </div>
-
           {patientAppointments.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {patientAppointments.map((apt) => (
@@ -290,7 +312,6 @@ const Appointments = () => {
           )}
         </div>
 
-        {/* Booking Form */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6">
             <h3 className="text-2xl font-bold text-white text-center">
@@ -302,17 +323,7 @@ const Appointments = () => {
           </div>
 
           <div className="p-8">
-            {/* Debug info */}
-            {!doctors && (
-              <div className="mb-4 p-4 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 rounded-lg">
-                <p className="font-semibold">Debug Info:</p>
-                <p>Doctors data: {JSON.stringify(doctors)}</p>
-                <p>User: {JSON.stringify(user)}</p>
-              </div>
-            )}
-
             <form onSubmit={handleBooking} className="space-y-6">
-              {/* Patient Name Field */}
               <div>
                 <label htmlFor="patientName" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Patient Name
@@ -331,7 +342,6 @@ const Appointments = () => {
                 </div>
               </div>
 
-              {/* Doctor Selection */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Select Doctor
@@ -348,7 +358,6 @@ const Appointments = () => {
                 />
               </div>
 
-              {/* Date Selection */}
               <div>
                 <label htmlFor="appointmentDate" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Appointment Date
@@ -368,7 +377,6 @@ const Appointments = () => {
                 </div>
               </div>
 
-              {/* Time Selection */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Appointment Time
@@ -377,16 +385,23 @@ const Appointments = () => {
                   value={selectedTime}
                   onChange={setSelectedTime}
                   options={timeOptions}
-                  placeholder="Select an available time"
+                  placeholder={
+                    !selectedDoctor 
+                      ? "Select a doctor first" 
+                      : !selectedDate 
+                      ? "Select a date first"
+                      : timeOptions.length === 0 
+                      ? "No available slots for today" 
+                      : "Select an available time"
+                  }
                   isOpen={isTimeOpen}
                   setIsOpen={setIsTimeOpen}
                   ref={timeRef}
-                  disabled={!selectedDoctor}
+                  disabled={!selectedDoctor || !selectedDate}
                   icon={ClockIcon}
                 />
               </div>
 
-              {/* Notes Field */}
               <div>
                 <label htmlFor="notes" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Additional Notes
@@ -404,7 +419,6 @@ const Appointments = () => {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={!selectedDoctor || !selectedDate || !selectedTime || !patientName}
