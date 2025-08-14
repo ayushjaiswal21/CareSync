@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   CheckIcon,
@@ -53,6 +53,14 @@ const LandingPage = () => {
     // or perform a follow-up action.
     setIsCalendarOpen(false); // Close the modal after selection
   };
+
+  useEffect(() => {   // handle the no-scroll CSS class in the <body>
+    if (isMobileMenuOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -128,7 +136,7 @@ const LandingPage = () => {
               </Link>
               <Link
                 to="/register"
-                className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
+                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
               >
                 Get Started
               </Link>
@@ -175,7 +183,7 @@ const LandingPage = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-4 py-2 rounded-lg text-center font-semibold"
+                  className="gradient-accent text-white px-4 py-2 rounded-lg text-center font-semibold"
                 >
                   Get Started
                 </Link>
@@ -205,7 +213,7 @@ const LandingPage = () => {
 
               <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
                 Healthcare
-                <span className="bg-gradient-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent">
+                <span className="gradient-accent bg-clip-text text-transparent">
                   {" "}
                   Management
                 </span>
@@ -222,7 +230,7 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl
+                  className="gradient-accent text-white px-8 py-4 rounded-xl
                   flex items-center justify-center space-x-2 font-bold text-lg shadow-xl hover:shadow-2xl
                   transition-all duration-300 transform hover:scale-105"
                 >
@@ -271,7 +279,7 @@ const LandingPage = () => {
                 {/* Dashboard Header */}
                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
                       <HeartIcon className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -376,7 +384,7 @@ const LandingPage = () => {
                       className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        <div className="w-8 h-8 gradient-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
                           {activity.patient
                             .split(" ")
                             .map((n) => n[0])
@@ -411,7 +419,7 @@ const LandingPage = () => {
 
                 {/* Quick Action */}
                 <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300">
+                  <button className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300">
                     <PlusCircleIcon className="h-5 w-5" />
                     <span>New Patient</span>
                   </button>

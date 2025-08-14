@@ -44,7 +44,7 @@ const Contributor = () => {
       <div className="text-center mb-16">
         <h2 className="text-5xl font-bold text-gray-800 dark:text-gray-100 mb-6">
           Join Our Healthcare{" "}
-          <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+          <span className="gradient-accent-alt bg-clip-text text-transparent">
             Community
           </span>
         </h2>
@@ -97,7 +97,7 @@ const Contributor = () => {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <button className="group bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg shadow-green-200 dark:shadow-green-900/30 hover:shadow-xl hover:shadow-green-300 dark:hover:shadow-green-900/50 flex items-center gap-3 font-medium">
+  <button className="group gradient-accent-alt text-white px-8 py-4 rounded-xl transition-all duration-200 shadow-lg shadow-green-200 dark:shadow-green-900/30 hover:shadow-xl hover:shadow-green-300 dark:hover:shadow-green-900/50 flex items-center gap-3 font-medium">
           {/* <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" /> */}
           Contribute on GitHub
         </button>

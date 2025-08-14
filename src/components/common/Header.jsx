@@ -34,14 +34,14 @@ const Header = () => {
   const displayName = user?.name || user?.displayName || user?.email || "User";
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-gray-900 dark:border-gray-800">
+    <header className="bg-surface border-subtle border-b shadow-sm">
       <div className="px-6 py-2">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+            <h1 className="text-2xl font-bold text-primary">
               CareSync
             </h1>
-            <span className="ml-2 px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full dark:bg-primary-900/30 dark:text-primary-200">
+            <span className="ml-2 px-2 py-1 bg-primary-100/80 text-primary-800 text-xs rounded-full dark:bg-primary-900/30 dark:text-primary-200">
               Beta
             </span>
           </div>

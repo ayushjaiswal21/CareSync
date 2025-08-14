@@ -116,14 +116,14 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 min-h-screen ${sidebarWidth} bg-gradient-to-b from-primary-50 via-white to-medical-50 shadow-xl border-r border-gray-200 flex flex-col z-50 transition-transform duration-200 ${
+        className={`fixed top-0 left-0 min-h-screen ${sidebarWidth} bg-gradient-to-b from-primary-50/90 via-white to-medical-50/90 shadow-xl border-r border-subtle flex flex-col z-50 transition-transform duration-200 ${
           open ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:h-auto dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:border-gray-800`}
+        } lg:translate-x-0 lg:static lg:h-auto dark:from-gray-950 dark:via-gray-900/95 dark:to-gray-950`}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 h-20 border-b border-gray-100 bg-white/80 backdrop-blur dark:bg-gray-900/80 dark:border-gray-800">
-          <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary-100 shadow-inner dark:bg-primary-900/30">
-            <span className="text-primary-600 text-2xl font-bold dark:text-primary-300">
+        <div className="flex items-center gap-3 px-6 h-20 border-b border-subtle bg-surface/90 backdrop-blur">
+          <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary-100/90 shadow-inner dark:bg-primary-900/30">
+            <span className="text-primary text-2xl font-bold">
               🩺
             </span>
           </div>
