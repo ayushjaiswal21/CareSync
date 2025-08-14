@@ -25,6 +25,22 @@ const Register = () => {
     pharmacyName: '',
     pharmacyAddress: ''
   })
+  const [passwordValidity, setPasswordValidity] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+});
+const checkPasswordStrength = (password) => {
+  setPasswordValidity({
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  });
+};
 
   const handleChange = (e) => {
     setFormData({
@@ -32,6 +48,9 @@ const Register = () => {
       [e.target.name]: e.target.value
     })
     if (error) setError('')
+    if (e.target.name === 'password') {
+      checkPasswordStrength(e.target.value);
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -39,6 +58,11 @@ const Register = () => {
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match!')
       return
+    }
+
+    if (!Object.values(passwordValidity).every(Boolean)) {
+        setError('Please meet all password requirements.');
+        return;
     }
 
     setLoading(true)
@@ -247,6 +271,26 @@ const Register = () => {
               </button>
             </div>
 
+            {formData.password.length > 0 && (
+              <div className="bg-gray-50 p-4 rounded-b-md border-t-0 border border-gray-300 -mt-px space-y-1">
+                <p className={`flex items-center gap-2 ${passwordValidity.length ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.length ? '✓' : '✗'} At least 8 characters long
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.uppercase ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.uppercase ? '✓' : '✗'} Contains at least one uppercase letter
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.lowercase ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.lowercase ? '✓' : '✗'} Contains at least one lowercase letter
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.number ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.number ? '✓' : '✗'} Contains at least one number
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.special ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.special ? '✓' : '✗'} Contains at least one special character
+                </p>
+              </div>
+            )}
+
             <div className="relative">
               <input
                 id="confirmPassword"
@@ -291,7 +335,7 @@ const Register = () => {
           <div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !Object.values(passwordValidity).every(Boolean)}
               className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? <LoadingSpinner size="sm" color="white" /> : 'Create Account'}
