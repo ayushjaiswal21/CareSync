@@ -36,7 +36,7 @@ const PatientDashboard = ({ activeTab }) => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-900 min-h-full">
+    <div className="p-6 bg-subtle min-h-full">
       {renderContent()}
     </div>
   );
@@ -85,7 +85,7 @@ const DashboardOverview = ({ user, apptCount }) => {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+            className="bg-surface p-6 rounded-lg shadow-sm border border-subtle hover:shadow-md transition-shadow"
           >
             <div className="flex items-center">
               <div

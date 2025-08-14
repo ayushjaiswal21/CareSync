@@ -39,10 +39,10 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer id="contact" className="bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-white w-full z-50">
+    <footer id="contact" className="bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-50 w-full z-50">
       { isVisible && <button
     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-    className='fixed h-10 w-10 text-xl z-1000 bottom-8 right-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-2 rounded-lg font-bold cursor-pointer hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-600 hover:scale-110 transition-colors'>
+    className='fixed h-10 w-10 text-xl z-1000 bottom-8 right-8 bg-gradient-to-r from-medical-500 to-primary-600 text-white p-2 rounded-lg font-bold cursor-pointer hover:bg-gradient-to-r hover:from-primary-500 hover:to-medical-600 hover:scale-110 transition-colors'>
     <ChevronDoubleUpIcon/>    </button>}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
