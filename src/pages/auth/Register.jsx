@@ -15,7 +15,6 @@ const Register = () => {
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
-feature/password-checker
     firstName: '',
     lastName: '',
     email: '',
@@ -28,54 +27,36 @@ feature/password-checker
     experience: '',
     pharmacyName: '',
     pharmacyAddress: ''
-  })
+  });
+
   const [passwordValidity, setPasswordValidity] = useState({
     length: false,
     uppercase: false,
     lowercase: false,
     number: false,
     special: false,
-});
-const checkPasswordStrength = (password) => {
-  setPasswordValidity({
-    length: password.length >= 8,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /[0-9]/.test(password),
-    special: /[^A-Za-z0-9]/.test(password),
   });
-};
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    role: "patient",
-    phone: "",
-    specialization: "",
-    licenseNumber: "",
-    experience: "",
-    pharmacyName: "",
-    pharmacyAddress: "",
-  });
-main
+
+  const checkPasswordStrength = (password) => {
+    setPasswordValidity({
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[^A-Za-z0-9]/.test(password),
+    });
+  };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
- feature/password-checker
-      [e.target.name]: e.target.value
-    })
-    if (error) setError('')
-    if (e.target.name === 'password') {
-      checkPasswordStrength(e.target.value);
-    }
-  }
       [e.target.name]: e.target.value,
     });
     if (error) setError("");
+    if (e.target.name === 'password') {
+      checkPasswordStrength(e.target.value);
+    }
   };
- main
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,46 +73,15 @@ main
       setError("Phone number must be exactly 10 digits.");
       return;
     }
-    
-    // Password length check
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters long.");
-      return;
-    }
 
-    // Password must have uppercase, lowercase, number, and special char
-    let hasUppercase = false;
-    let hasLowercase = false;
-    let hasNumber = false;
-    let hasSpecial = false;
-    const specials = "!@#$%^&*()_+[]{}|;:',.<>?/`~";
-
-    for (let char of formData.password) {
-      if (char >= "A" && char <= "Z") hasUppercase = true;
-      else if (char >= "a" && char <= "z") hasLowercase = true;
-      else if (char >= "0" && char <= "9") hasNumber = true;
-      else if (specials.includes(char)) hasSpecial = true;
-    }
-
- feature/password-checker
+    // Check password requirements
     if (!Object.values(passwordValidity).every(Boolean)) {
-        setError('Please meet all password requirements.');
-        return;
-    }
-
-    setLoading(true)
-    setError('')
-
-    if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
-      setError(
-        "Password must contain uppercase, lowercase, number, and special character."
-      );
+      setError('Please meet all password requirements.');
       return;
     }
 
     setLoading(true);
-    setError("");
- main
+    setError('');
 
     try {
       const result = await register(formData);
@@ -166,7 +116,7 @@ main
         staggerChildren: 0.08
       }
     }
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -175,7 +125,7 @@ main
       y: 0,
       transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }
     }
-  }
+  };
 
   const floatingVariants = {
     animate: {
@@ -187,7 +137,7 @@ main
         ease: "easeInOut"
       }
     }
-  }
+  };
 
   const pulseVariants = {
     animate: {
@@ -199,119 +149,117 @@ main
         ease: "linear"
       }
     }
-  }
+  };
 
   const renderRoleSpecificFields = () => {
-  switch (formData.role) {
-    case "doctor":
-      return (
-        <motion.div
-          key="doctor-fields"
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="space-y-4"
-        >
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
-            <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              name="specialization"
-              type="text"
-              required
-              value={formData.specialization}
-              onChange={handleChange}
-              placeholder="Specialization"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-            />
+    switch (formData.role) {
+      case "doctor":
+        return (
+          <motion.div
+            key="doctor-fields"
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="space-y-4"
+          >
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
+              <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                name="specialization"
+                type="text"
+                required
+                value={formData.specialization}
+                onChange={handleChange}
+                placeholder="Specialization"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
+              <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                name="licenseNumber"
+                type="text"
+                required
+                value={formData.licenseNumber}
+                onChange={handleChange}
+                placeholder="Medical License Number"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
+              <Award className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                name="experience"
+                type="number"
+                value={formData.experience}
+                onChange={handleChange}
+                placeholder="Years of Experience"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              />
+            </motion.div>
           </motion.div>
+        );
 
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
-            <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              name="licenseNumber"
-              type="text"
-              required
-              value={formData.licenseNumber}
-              onChange={handleChange}
-              placeholder="Medical License Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-            />
+      case "pharmacist":
+        return (
+          <motion.div
+            key="pharmacist-fields"
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="space-y-4"
+          >
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
+              <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                name="licenseNumber"
+                type="text"
+                required
+                value={formData.licenseNumber}
+                onChange={handleChange}
+                placeholder="Pharmacy License Number"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
+              <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                name="pharmacyName"
+                type="text"
+                required
+                value={formData.pharmacyName}
+                onChange={handleChange}
+                placeholder="Pharmacy Name"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
+              <MapPin className="absolute left-3 top-4 text-gray-400 w-5 h-5" />
+              <textarea
+                name="pharmacyAddress"
+                required
+                value={formData.pharmacyAddress}
+                onChange={handleChange}
+                rows={3}
+                placeholder="Pharmacy Address"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none"
+              />
+            </motion.div>
           </motion.div>
+        );
 
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
-            <Award className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              name="experience"
-              type="number"
-              value={formData.experience}
-              onChange={handleChange}
-              placeholder="Years of Experience"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-            />
-          </motion.div>
-        </motion.div>
-      );
-
-    case "pharmacist":
-      return (
-        <motion.div
-          key="pharmacist-fields"
-          layout
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="space-y-4"
-        >
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
-            <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              name="licenseNumber"
-              type="text"
-              required
-              value={formData.licenseNumber}
-              onChange={handleChange}
-              placeholder="Pharmacy License Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-            />
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
-            <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              name="pharmacyName"
-              type="text"
-              required
-              value={formData.pharmacyName}
-              onChange={handleChange}
-              placeholder="Pharmacy Name"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
-            />
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
-            <MapPin className="absolute left-3 top-4 text-gray-400 w-5 h-5" />
-            <textarea
-              name="pharmacyAddress"
-              required
-              value={formData.pharmacyAddress}
-              onChange={handleChange}
-              rows={3}
-              placeholder="Pharmacy Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none"
-            />
-          </motion.div>
-        </motion.div>
-      );
-
-    default:
-      return null;
-  }
-};
-
-
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -556,7 +504,6 @@ main
             {renderRoleSpecificFields()}
           </AnimatePresence>
 
-
           {/* PASSWORDS */}
           <motion.div variants={itemVariants} className="space-y-4">
             <div className="relative">
@@ -604,31 +551,36 @@ main
                 </AnimatePresence>
               </motion.button>
             </div>
- feature/password-checker
 
+            {/* Password strength indicator */}
             {formData.password.length > 0 && (
-              <div className="bg-gray-50 p-4 rounded-b-md border-t-0 border border-gray-300 -mt-px space-y-1">
-                <p className={`flex items-center gap-2 ${passwordValidity.length ? 'text-green-600' : 'text-red-600'}`}>
-                  {passwordValidity.length ? '✓' : '✗'} At least 8 characters long
-                </p>
-                <p className={`flex items-center gap-2 ${passwordValidity.uppercase ? 'text-green-600' : 'text-red-600'}`}>
-                  {passwordValidity.uppercase ? '✓' : '✗'} Contains at least one uppercase letter
-                </p>
-                <p className={`flex items-center gap-2 ${passwordValidity.lowercase ? 'text-green-600' : 'text-red-600'}`}>
-                  {passwordValidity.lowercase ? '✓' : '✗'} Contains at least one lowercase letter
-                </p>
-                <p className={`flex items-center gap-2 ${passwordValidity.number ? 'text-green-600' : 'text-red-600'}`}>
-                  {passwordValidity.number ? '✓' : '✗'} Contains at least one number
-                </p>
-                <p className={`flex items-center gap-2 ${passwordValidity.special ? 'text-green-600' : 'text-red-600'}`}>
-                  {passwordValidity.special ? '✓' : '✗'} Contains at least one special character
-                </p>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2"
+              >
+                <p className="text-sm font-medium text-gray-700 mb-2">Password Requirements:</p>
+                <div className="space-y-1">
+                  <p className={`flex items-center gap-2 text-sm ${passwordValidity.length ? 'text-green-600' : 'text-red-600'}`}>
+                    {passwordValidity.length ? '✓' : '✗'} At least 8 characters long
+                  </p>
+                  <p className={`flex items-center gap-2 text-sm ${passwordValidity.uppercase ? 'text-green-600' : 'text-red-600'}`}>
+                    {passwordValidity.uppercase ? '✓' : '✗'} Contains at least one uppercase letter
+                  </p>
+                  <p className={`flex items-center gap-2 text-sm ${passwordValidity.lowercase ? 'text-green-600' : 'text-red-600'}`}>
+                    {passwordValidity.lowercase ? '✓' : '✗'} Contains at least one lowercase letter
+                  </p>
+                  <p className={`flex items-center gap-2 text-sm ${passwordValidity.number ? 'text-green-600' : 'text-red-600'}`}>
+                    {passwordValidity.number ? '✓' : '✗'} Contains at least one number
+                  </p>
+                  <p className={`flex items-center gap-2 text-sm ${passwordValidity.special ? 'text-green-600' : 'text-red-600'}`}>
+                    {passwordValidity.special ? '✓' : '✗'} Contains at least one special character
+                  </p>
+                </div>
+              </motion.div>
             )}
 
-
-            
- main
             <div className="relative">
               <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <motion.input
@@ -710,24 +662,13 @@ main
             </label>
           </motion.div>
 
- feature/password-checker
-          <div>
-            <button
-              type="submit"
-              disabled={loading || !Object.values(passwordValidity).every(Boolean)}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? <LoadingSpinner size="sm" color="white" /> : 'Create Account'}
-            </button>
-          </div>
-
           {/* SUBMIT */}
           <motion.button
             variants={itemVariants}
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            disabled={loading}
+            disabled={loading || !Object.values(passwordValidity).every(Boolean)}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white py-3 px-6 rounded-xl text-lg font-bold shadow-lg shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             <AnimatePresence mode="wait">
@@ -762,7 +703,6 @@ main
               )}
             </AnimatePresence>
           </motion.button>
- main
 
           {/* OR */}
           <motion.div
@@ -815,4 +755,4 @@ main
   );
 };
 
-export default Register;
+export default Register;
