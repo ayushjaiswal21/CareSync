@@ -15,6 +15,36 @@ const Register = () => {
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
+feature/password-checker
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: 'patient',
+    phone: '',
+    specialization: '',
+    licenseNumber: '',
+    experience: '',
+    pharmacyName: '',
+    pharmacyAddress: ''
+  })
+  const [passwordValidity, setPasswordValidity] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+});
+const checkPasswordStrength = (password) => {
+  setPasswordValidity({
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  });
+};
     firstName: "",
     lastName: "",
     email: "",
@@ -28,14 +58,24 @@ const Register = () => {
     pharmacyName: "",
     pharmacyAddress: "",
   });
+main
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
+ feature/password-checker
+      [e.target.name]: e.target.value
+    })
+    if (error) setError('')
+    if (e.target.name === 'password') {
+      checkPasswordStrength(e.target.value);
+    }
+  }
       [e.target.name]: e.target.value,
     });
     if (error) setError("");
   };
+ main
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,6 +113,15 @@ const Register = () => {
       else if (specials.includes(char)) hasSpecial = true;
     }
 
+ feature/password-checker
+    if (!Object.values(passwordValidity).every(Boolean)) {
+        setError('Please meet all password requirements.');
+        return;
+    }
+
+    setLoading(true)
+    setError('')
+
     if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
       setError(
         "Password must contain uppercase, lowercase, number, and special character."
@@ -82,6 +131,7 @@ const Register = () => {
 
     setLoading(true);
     setError("");
+ main
 
     try {
       const result = await register(formData);
@@ -554,7 +604,31 @@ const Register = () => {
                 </AnimatePresence>
               </motion.button>
             </div>
+ feature/password-checker
+
+            {formData.password.length > 0 && (
+              <div className="bg-gray-50 p-4 rounded-b-md border-t-0 border border-gray-300 -mt-px space-y-1">
+                <p className={`flex items-center gap-2 ${passwordValidity.length ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.length ? '✓' : '✗'} At least 8 characters long
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.uppercase ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.uppercase ? '✓' : '✗'} Contains at least one uppercase letter
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.lowercase ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.lowercase ? '✓' : '✗'} Contains at least one lowercase letter
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.number ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.number ? '✓' : '✗'} Contains at least one number
+                </p>
+                <p className={`flex items-center gap-2 ${passwordValidity.special ? 'text-green-600' : 'text-red-600'}`}>
+                  {passwordValidity.special ? '✓' : '✗'} Contains at least one special character
+                </p>
+              </div>
+            )}
+
+
             
+ main
             <div className="relative">
               <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <motion.input
@@ -636,6 +710,17 @@ const Register = () => {
             </label>
           </motion.div>
 
+ feature/password-checker
+          <div>
+            <button
+              type="submit"
+              disabled={loading || !Object.values(passwordValidity).every(Boolean)}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? <LoadingSpinner size="sm" color="white" /> : 'Create Account'}
+            </button>
+          </div>
+
           {/* SUBMIT */}
           <motion.button
             variants={itemVariants}
@@ -677,6 +762,7 @@ const Register = () => {
               )}
             </AnimatePresence>
           </motion.button>
+ main
 
           {/* OR */}
           <motion.div
