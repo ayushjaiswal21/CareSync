@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
-import { useAuth } from '../../contexts/AuthContext' // Adjust path as needed
-import LoadingSpinner from '../../components/common/LoadingSpinner'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { EyeIcon, EyeSlashIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../contexts/AuthContext";
+import LoadingSpinner from "../../components/common/LoadingSpinner";
+import { motion, AnimatePresence } from "framer-motion";
+import { User, Mail, Phone, Shield, Building, MapPin, GraduationCap, Award } from "lucide-react";
 
 const Register = () => {
-  const { register, loginWithGoogle } = useAuth()
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const { register, loginWithGoogle } = useAuth();
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const [formData, setFormData] = useState({
+feature/password-checker
     firstName: '',
     lastName: '',
     email: '',
@@ -41,10 +45,25 @@ const checkPasswordStrength = (password) => {
     special: /[^A-Za-z0-9]/.test(password),
   });
 };
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "patient",
+    phone: "",
+    specialization: "",
+    licenseNumber: "",
+    experience: "",
+    pharmacyName: "",
+    pharmacyAddress: "",
+  });
+main
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
+ feature/password-checker
       [e.target.name]: e.target.value
     })
     if (error) setError('')
@@ -52,14 +71,49 @@ const checkPasswordStrength = (password) => {
       checkPasswordStrength(e.target.value);
     }
   }
+      [e.target.name]: e.target.value,
+    });
+    if (error) setError("");
+  };
+ main
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    // Password match check
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match!')
-      return
+      setError("Passwords do not match!");
+      return;
     }
 
+    // Phone number must be exactly 10 digits
+    const cleanedPhone = formData.phone.replace(/\D/g, "");
+    if (cleanedPhone.length !== 10) {
+      setError("Phone number must be exactly 10 digits.");
+      return;
+    }
+    
+    // Password length check
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
+    // Password must have uppercase, lowercase, number, and special char
+    let hasUppercase = false;
+    let hasLowercase = false;
+    let hasNumber = false;
+    let hasSpecial = false;
+    const specials = "!@#$%^&*()_+[]{}|;:',.<>?/`~";
+
+    for (let char of formData.password) {
+      if (char >= "A" && char <= "Z") hasUppercase = true;
+      else if (char >= "a" && char <= "z") hasLowercase = true;
+      else if (char >= "0" && char <= "9") hasNumber = true;
+      else if (specials.includes(char)) hasSpecial = true;
+    }
+
+ feature/password-checker
     if (!Object.values(passwordValidity).every(Boolean)) {
         setError('Please meet all password requirements.');
         return;
@@ -68,32 +122,100 @@ const checkPasswordStrength = (password) => {
     setLoading(true)
     setError('')
 
+    if (!hasUppercase || !hasLowercase || !hasNumber || !hasSpecial) {
+      setError(
+        "Password must contain uppercase, lowercase, number, and special character."
+      );
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+ main
+
     try {
-      const result = await register(formData)
+      const result = await register(formData);
       if (result.success) {
-        navigate(`/${result.user.role}`)
+        navigate(`/${result.user.role}`);
       }
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleGoogleSignup = async () => {
     try {
-      await loginWithGoogle()
-      navigate('/dashboard') // Redirect after Google login/signup success
+      await loginWithGoogle();
+      navigate("/dashboard");
     } catch (error) {
-      alert('Google sign-in failed: ' + error.message)
+      alert("Google sign-in failed: " + error.message);
+    }
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.46, 0.45, 0.94],
+        staggerChildren: 0.08
+      }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }
+    }
+  }
+
+  const floatingVariants = {
+    animate: {
+      y: [0, -15, 0],
+      x: [0, 10, 0],
+      transition: {
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  }
+
+  const pulseVariants = {
+    animate: {
+      scale: [1, 1.1, 1],
+      rotate: [0, 180, 360],
+      transition: {
+        duration: 20,
+        repeat: Infinity,
+        ease: "linear"
+      }
     }
   }
 
   const renderRoleSpecificFields = () => {
-    switch (formData.role) {
-      case 'doctor':
-        return (
-          <>
+  switch (formData.role) {
+    case "doctor":
+      return (
+        <motion.div
+          key="doctor-fields"
+          layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="space-y-4"
+        >
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
+            <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               name="specialization"
               type="text"
@@ -101,8 +223,12 @@ const checkPasswordStrength = (password) => {
               value={formData.specialization}
               onChange={handleChange}
               placeholder="Specialization"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
             />
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
+            <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               name="licenseNumber"
               type="text"
@@ -110,21 +236,37 @@ const checkPasswordStrength = (password) => {
               value={formData.licenseNumber}
               onChange={handleChange}
               placeholder="Medical License Number"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
             />
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
+            <Award className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               name="experience"
               type="number"
               value={formData.experience}
               onChange={handleChange}
               placeholder="Years of Experience"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
             />
-          </>
-        )
-      case 'pharmacist':
-        return (
-          <>
+          </motion.div>
+        </motion.div>
+      );
+
+    case "pharmacist":
+      return (
+        <motion.div
+          key="pharmacist-fields"
+          layout
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35, ease: "easeInOut" }}
+          className="space-y-4"
+        >
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="relative">
+            <Shield className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               name="licenseNumber"
               type="text"
@@ -132,8 +274,12 @@ const checkPasswordStrength = (password) => {
               value={formData.licenseNumber}
               onChange={handleChange}
               placeholder="Pharmacy License Number"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
             />
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.03 }} className="relative">
+            <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               name="pharmacyName"
               type="text"
@@ -141,8 +287,12 @@ const checkPasswordStrength = (password) => {
               value={formData.pharmacyName}
               onChange={handleChange}
               placeholder="Pharmacy Name"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
             />
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.06 }} className="relative">
+            <MapPin className="absolute left-3 top-4 text-gray-400 w-5 h-5" />
             <textarea
               name="pharmacyAddress"
               required
@@ -150,62 +300,200 @@ const checkPasswordStrength = (password) => {
               onChange={handleChange}
               rows={3}
               placeholder="Pharmacy Address"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none"
             />
-          </>
-        )
-      default:
-        return null
-    }
+          </motion.div>
+        </motion.div>
+      );
+
+    default:
+      return null;
   }
+};
+
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl">
-        <div>
-          <h1 className="text-center text-4xl font-extrabold text-primary-600">CareSync</h1>
-          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">Create your account</h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background decorative elements */}
+      <motion.div
+        variants={pulseVariants}
+        animate="animate"
+        className="absolute -top-20 -right-20 w-40 h-40 bg-blue-200/20 rounded-full blur-xl"
+      />
+      <motion.div
+        variants={floatingVariants}
+        animate="animate"
+        className="absolute -bottom-20 -left-20 w-60 h-60 bg-purple-200/20 rounded-full blur-xl"
+      />
+      <motion.div
+        animate={{
+          y: [0, -20, 0],
+          x: [0, 15, 0],
+          scale: [1, 1.05, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-1/4 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-300/20 to-purple-300/20 rounded-full blur-lg"
+      />
+      <motion.div
+        animate={{
+          y: [0, 25, 0],
+          x: [0, -10, 0],
+          rotate: [0, 180, 360],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute bottom-1/3 left-1/3 w-24 h-24 bg-gradient-to-br from-purple-300/20 to-blue-300/20 rounded-full blur-lg"
+      />
+
+      {/* Home Button */}
+      <motion.div
+        className="absolute top-6 left-6 z-20"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3, duration: 0.6 }}
+      >
+        <Link
+          to="/"
+          className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 text-blue-600 hover:text-blue-700 hover:bg-white transition-all duration-300 group"
+        >
+          <motion.div
+            whileHover={{ x: -3 }}
+            transition={{ type: "spring", stiffness: 400 }}
+          >
+            <HomeIcon className="w-5 h-5" />
+          </motion.div>
+          <span className="font-medium text-sm">Home</span>
+        </Link>
+      </motion.div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-lg w-full space-y-6 bg-white/90 backdrop-blur-sm px-8 py-10 rounded-2xl shadow-2xl shadow-blue-200/20 border border-blue-100/50 relative z-10"
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
+        {/* HEADER */}
+        <motion.div
+          variants={itemVariants}
+          className="text-center space-y-3"
+        >
+          <motion.div
+            whileHover={{ rotate: 360, scale: 1.05 }}
+            transition={{ duration: 0.6 }}
+            className="inline-block"
+          >
+            <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent">
+              CareSync
+            </h1>
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="text-2xl font-bold text-gray-900"
+          >
+            Create your account
+          </motion.h2>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"
+          />
+          <motion.p
+            variants={itemVariants}
+            className="text-sm text-gray-600"
+          >
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-semibold text-blue-600 hover:text-blue-500 hover:underline transition-all duration-200"
+            >
               Sign in here
             </Link>
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg">
-              <p className="font-bold">Error</p>
-              <p>{error}</p>
-            </div>
-          )}
-
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div className="relative mb-4">
-              <select
-                id="role"
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+        {/* FORM */}
+        <motion.form
+          variants={containerVariants}
+          className="mt-6 space-y-5"
+          onSubmit={handleSubmit}
+        >
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, height: 0 }}
+                animate={{ opacity: 1, scale: 1, height: "auto" }}
+                exit={{ opacity: 0, scale: 0.95, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-xl shadow-sm overflow-hidden"
               >
-                <option value="patient">Patient</option>
-                <option value="doctor">Doctor</option>
-                <option value="pharmacist">Pharmacist</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
+                <div className="flex items-start">
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0"
+                  >
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </motion.div>
+                  <div>
+                    <p className="font-bold text-sm">Registration Error</p>
+                    <p className="text-sm">{error}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <div className="grid grid-cols-2 gap-x-2">
+          {/* ROLE SELECT */}
+          <motion.div variants={itemVariants} className="relative">
+            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-10" />
+            <motion.select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full pl-12 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 bg-white appearance-none cursor-pointer"
+              whileFocus={{ scale: 1.02 }}
+            >
+              <option value="patient">Patient</option>
+              <option value="doctor">Doctor</option>
+              <option value="pharmacist">Pharmacist</option>
+            </motion.select>
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <motion.svg
+                animate={{ rotate: formData.role !== 'patient' ? 180 : 0 }}
+                className="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </motion.svg>
+            </div>
+          </motion.div>
+
+          {/* NAME FIELDS */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <motion.div
+              className="relative"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 name="firstName"
                 type="text"
@@ -213,8 +501,15 @@ const checkPasswordStrength = (password) => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
               />
+            </motion.div>
+            <motion.div
+              className="relative"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 name="lastName"
                 type="text"
@@ -222,54 +517,94 @@ const checkPasswordStrength = (password) => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
               />
-            </div>
+            </motion.div>
+          </motion.div>
 
-            <input
+          {/* CONTACT */}
+          <motion.div variants={itemVariants} className="relative">
+            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <motion.input
               name="email"
               type="email"
               required
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              whileFocus={{ scale: 1.02 }}
             />
-            <input
+          </motion.div>
+          
+          <motion.div variants={itemVariants} className="relative">
+            <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <motion.input
               name="phone"
               type="tel"
               required
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              whileFocus={{ scale: 1.02 }}
             />
+          </motion.div>
 
+          {/* ROLE SPECIFIC */}
+          <AnimatePresence mode="wait" initial={false}>
             {renderRoleSpecificFields()}
+          </AnimatePresence>
 
+
+          {/* PASSWORDS */}
+          <motion.div variants={itemVariants} className="space-y-4">
             <div className="relative">
-              <input
+              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <motion.input
                 id="password"
                 name="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 required
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                whileFocus={{ scale: 1.02 }}
               />
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <EyeIcon className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
+                <AnimatePresence mode="wait">
+                  {showPassword ? (
+                    <motion.div
+                      key="eyeslash"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500 hover:text-blue-600 transition-colors" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="eye"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <EyeIcon className="h-5 w-5 text-gray-500 hover:text-blue-600 transition-colors" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
             </div>
+ feature/password-checker
 
             {formData.password.length > 0 && (
               <div className="bg-gray-50 p-4 rounded-b-md border-t-0 border border-gray-300 -mt-px space-y-1">
@@ -291,47 +626,91 @@ const checkPasswordStrength = (password) => {
               </div>
             )}
 
+
+            
+ main
             <div className="relative">
-              <input
+              <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <motion.input
                 id="confirmPassword"
                 name="confirmPassword"
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
-                className="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                whileFocus={{ scale: 1.02 }}
               />
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? (
-                  <EyeSlashIcon className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <EyeIcon className="h-5 w-5 text-gray-500" />
-                )}
-              </button>
+                <AnimatePresence mode="wait">
+                  {showConfirmPassword ? (
+                    <motion.div
+                      key="eyeslash2"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <EyeSlashIcon className="h-5 w-5 text-gray-500 hover:text-blue-600 transition-colors" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="eye2"
+                      initial={{ opacity: 0, rotate: -90 }}
+                      animate={{ opacity: 1, rotate: 0 }}
+                      exit={{ opacity: 0, rotate: 90 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <EyeIcon className="h-5 w-5 text-gray-500 hover:text-blue-600 transition-colors" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center">
-            <input
+          {/* TERMS */}
+          <motion.div
+            variants={itemVariants}
+            className="flex items-start text-sm space-x-3 py-2"
+          >
+            <motion.input
               id="agree-terms"
               name="agree-terms"
               type="checkbox"
               required
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+              className="mt-0.5 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             />
-            <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-900">
-              I agree to the{' '}
-              <a href="#" className="text-primary-600 hover:text-primary-500">
+            <label htmlFor="agree-terms" className="text-gray-700 leading-relaxed">
+              I agree to the{" "}
+              <motion.a
+                href="#"
+                className="text-blue-600 hover:text-blue-500 font-medium hover:underline transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+              >
                 Terms of Service
-              </a>
+              </motion.a>{" "}
+              and{" "}
+              <motion.a
+                href="#"
+                className="text-blue-600 hover:text-blue-500 font-medium hover:underline transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+              >
+                Privacy Policy
+              </motion.a>
             </label>
-          </div>
+          </motion.div>
 
+ feature/password-checker
           <div>
             <button
               type="submit"
@@ -342,48 +721,98 @@ const checkPasswordStrength = (password) => {
             </button>
           </div>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
-              </div>
-            </div>
+          {/* SUBMIT */}
+          <motion.button
+            variants={itemVariants}
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white py-3 px-6 rounded-xl text-lg font-bold shadow-lg shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          >
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center space-x-2"
+                >
+                  <LoadingSpinner size="sm" color="white" />
+                  <span>Creating Account...</span>
+                </motion.div>
+              ) : (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center space-x-2"
+                >
+                  <motion.svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    whileHover={{ x: 2 }}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                  </motion.svg>
+                  <span>Create Account</span>
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+ main
 
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={handleGoogleSignup}
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
-                </svg>
-                <span className="ml-2">Sign up with Google</span>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+          {/* OR */}
+          <motion.div
+            variants={itemVariants}
+            className="relative flex items-center my-6"
+          >
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 2.5, duration: 0.5 }}
+              className="flex-1 border-t border-gray-200"
+            />
+            <motion.span
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.6 }}
+              className="px-4 bg-white text-gray-500 text-sm font-medium"
+            >
+              Or continue with
+            </motion.span>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 2.5, duration: 0.5 }}
+              className="flex-1 border-t border-gray-200"
+            />
+          </motion.div>
+
+          {/* GOOGLE */}
+          <motion.button
+            variants={itemVariants}
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            type="button"
+            onClick={handleGoogleSignup}
+            className="w-full inline-flex justify-center items-center py-3 px-4 border-2 border-gray-200 rounded-xl shadow-sm bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 hover:shadow-md transition-all duration-300"
+          >
+            <motion.img
+              src="https://www.svgrepo.com/show/355037/google.svg"
+              alt="Google"
+              className="h-5 w-5 mr-3"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
+            />
+            <span>Sign up with Google</span>
+          </motion.button>
+        </motion.form>
+      </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
