@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  CheckIcon,
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import { 
+  CheckIcon, 
+  StarIcon,
   PlayIcon,
   ArrowRightIcon,
   ShieldCheckIcon,
@@ -32,32 +34,39 @@ import ContactUs from "./ContactUs";
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./Feature";
 
-const LandingPage = () => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const { isDark, toggleTheme } = useTheme();
+  const LandingPage = () => {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  
+  const { user, loading } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
 
   const handleScheduleDemoClick = () => {
-    setIsCalendarOpen(true);
-  };
+    setIsCalendarOpen(true)
+  }
 
   const handleCalendarClose = () => {
-    setIsCalendarOpen(false);
-  };
+    setIsCalendarOpen(false)
+  }
 
   const handleDateSelection = (selectedDate) => {
-    console.log("Selected demo date:", selectedDate);
-    setIsCalendarOpen(false);
-  };
+    console.log("Selected demo date:", selectedDate)
+    setIsCalendarOpen(false)
+  }
 
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.classList.add("no-scroll");
+      document.body.classList.add("no-scroll")
     } else {
-      document.body.classList.remove("no-scroll");
+      document.body.classList.remove("no-scroll")
     }
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen])
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading…</div>
+  }
+
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -263,23 +272,72 @@ const LandingPage = () => {
                 ))}
               </div>
             </div>
-
-            {/* Professional Dashboard Preview - Removed distracting animations */}
-            <div className="relative">
-              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
-                {/* Dashboard Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                      <HeartIcon className="h-6 w-6 text-white" />
+            
+            <div data-aos="fade-up" className="relative">
+              {user ? (
+                // AUTHENTICATED: show professional dashboard preview with main's design
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
+                  {/* Dashboard Header */}
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
+                        <HeartIcon className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                          CareSync Dashboard
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Dr. Sarah Johnson
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                        CareSync Dashboard
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Dr. Sarah Johnson
-                      </p>
+                  </div>
+
+                  {/* Stats Section */}
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center bg-white/20 dark:bg-gray-700/40 rounded-lg p-3">
+                      <span>Active Patients</span>
+                      <span className="font-bold">1,247</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-white/20 dark:bg-gray-700/40 rounded-lg p-3">
+                      <span>Prescriptions Today</span>
+                      <span className="font-bold">89</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-white/20 dark:bg-gray-700/40 rounded-lg p-3">
+                      <span>Response Time</span>
+                      <span className="font-bold">2min</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // VISITOR: show placeholder + CTA
+                <div className="bg-white rounded-2xl shadow-2xl p-8">
+                  <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center">
+                    <LockClosedIcon className="h-10 w-10 mx-auto mb-4 text-gray-400" />
+                    <h3 className="text-lg font-semibold mb-2">Dashboard is private</h3>
+                    <p className="text-gray-600 mb-4">
+                      Sign in to view your personalized dashboard.
+                    </p>
+                    <div className="flex justify-center gap-3">
+                      <Link
+                        to="/login"
+                        className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-200"
+                      >
+                        Create account
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            
                     </div>
                   </div>
                   <div className="relative">
@@ -419,11 +477,13 @@ const LandingPage = () => {
                     <span>New Patient</span>
                   </button>
                 </div>
-              </div>
+              )}
 
-              {/* Subtle Decorative Elements - No distracting animations */}
+              {/* Decorative element from main's styling */}
               <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
                 <HeartIcon className="h-8 w-8" />
+              </div>
+
               </div>
 
               <div className="absolute -bottom-6 -right-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
