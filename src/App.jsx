@@ -22,6 +22,7 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
+import AboutPage from "./pages/AboutPage";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -60,6 +61,7 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/about" element={<AboutPage/>} />
       <Route
         path="/login"
         element={user ? <Navigate to={`/${user.role}`} /> : <Login />}
