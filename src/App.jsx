@@ -23,6 +23,10 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
+
+import AboutPage from "./pages/AboutPage";
+import Feature from "./pages/feature";
+
 import Patients from "./components/doctor/Patients";
 import Messages from "./components/common/Messages";
 import Settings from "./components/common/Settings";
@@ -30,6 +34,7 @@ import Inventory from "./components/patient/Inventory";
 import Prescription from "./components/pharmacist/Prescriptions";
 import PharmacistInventory from "./components/pharmacist/Inventory";
 import { Toaster } from "react-hot-toast";
+
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole = null }) => {
@@ -118,9 +123,14 @@ const AppRoutes = () => {
       {/* Public Routes - Accessible to all users */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/contact" element={<ContactPage />} />
+
+      <Route path="/about" element={<AboutPage/>} />
+      <Route path="/feature" element={<Feature/>} />
+
       <Route path="/about" element={<AboutPage />} />
       
       {/* Auth Routes - Redirect authenticated users */}
+
       <Route
         path="/login"
         element={
