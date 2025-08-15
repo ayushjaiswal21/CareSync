@@ -173,7 +173,7 @@ const Register = () => {
                 value={formData.specialization}
                 onChange={handleChange}
                 placeholder="Specialization"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -186,7 +186,7 @@ const Register = () => {
                 value={formData.licenseNumber}
                 onChange={handleChange}
                 placeholder="Medical License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -198,7 +198,7 @@ const Register = () => {
                 value={formData.experience}
                 onChange={handleChange}
                 placeholder="Years of Experience"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
           </motion.div>
@@ -224,7 +224,7 @@ const Register = () => {
                 value={formData.licenseNumber}
                 onChange={handleChange}
                 placeholder="Pharmacy License Number"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -237,7 +237,7 @@ const Register = () => {
                 value={formData.pharmacyName}
                 onChange={handleChange}
                 placeholder="Pharmacy Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
 
@@ -250,7 +250,7 @@ const Register = () => {
                 onChange={handleChange}
                 rows={3}
                 placeholder="Pharmacy Address"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 resize-none text-black"
               />
             </motion.div>
           </motion.div>
@@ -414,7 +414,7 @@ const Register = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full pl-12 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 bg-white appearance-none cursor-pointer"
+              className="w-full pl-12 pr-10 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 bg-white appearance-none cursor-pointer text-black"
               whileFocus={{ scale: 1.02 }}
             >
               <option value="patient">Patient</option>
@@ -449,7 +449,7 @@ const Register = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="First Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
             <motion.div
@@ -465,7 +465,7 @@ const Register = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="Last Name"
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               />
             </motion.div>
           </motion.div>
@@ -480,7 +480,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
@@ -494,7 +494,7 @@ const Register = () => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+              className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
               whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
@@ -516,7 +516,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
@@ -591,7 +591,7 @@ const Register = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
-                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400"
+                className="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-200/30 transition-all duration-300 placeholder-gray-400 text-black"
                 whileFocus={{ scale: 1.02 }}
               />
               <motion.button
