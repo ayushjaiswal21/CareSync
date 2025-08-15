@@ -31,41 +31,62 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
+  try {
+  const result = await login(
+    formData.email,
+    formData.password,
+    formData.role
+  );
 
-    try {
-      const result = await login(
-        formData.email,
-        formData.password,
-        formData.role
-      );
-      if (result.success) {
-        // Show success toast
-        toast.success(
-          `Welcome back, ${
-            result.user.name || result.user.email
-          }! Redirecting to your dashboard...`,
-          {
-            duration: 3000,
-            icon: "🎉",
-          }
-        );
+  if (result.success) {
+    toast.custom((t) => (
+      <div
+        className={`${
+          t.visible ? "animate-slideIn" : "animate-slideOut"
+        } max-w-sm w-full bg-medical-500/20 backdrop-blur-md border border-medical-200/30 rounded-2xl shadow-lg p-4 flex items-start space-x-3`}
+      >
+        {/* Icon */}
+        <div className="flex-shrink-0">
+          <svg
+            className="w-6 h-6 text-medical-300 drop-shadow-md"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12l2 2l4-4m5 2a9 9 0 11-18 0a9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
 
-        // Navigate after a short delay
-        setTimeout(() => {
-          navigate(`/${result.user.role}`);
-        }, 1500);
-      }
-    } catch (err) {
-      const errorMessage = err.message || "An error occurred during login";
-      setError(errorMessage);
-      // Show error toast
-      toast.error(errorMessage, {
-        duration: 4000,
-        icon: "❌",
-      });
-    } finally {
-      setLoading(false);
-    }
+        {/* Text */}
+        <div className="flex-1">
+          <p className="text-sm font-semibold text-white drop-shadow-sm">
+            Welcome back, {result.user.name || result.user.email}!
+          </p>
+          <p className="text-xs text-medical-100 drop-shadow-sm">
+            Redirecting to your dashboard...
+          </p>
+        </div>
+
+        {/* Close Button */}
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="text-medical-200 hover:text-white transition"
+        >
+          ✕
+        </button>
+      </div>
+    ), { duration: 3000 });
+  }
+    } catch (error) {
+  console.error(error);
+      } finally {
+   setLoading(false);
+  }
   };
 
   const fillDemoCredentials = (role) => {
