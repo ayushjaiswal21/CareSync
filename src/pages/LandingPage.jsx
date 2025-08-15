@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import { 
   CheckIcon, 
   StarIcon,
@@ -17,6 +18,11 @@ import {
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+  const { user, loading } = useAuth()
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading…</div>
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -110,26 +116,42 @@ const LandingPage = () => {
             </div>
             
             <div data-aos="fade-up" className="relative">
-              <div className="bg-white rounded-2xl shadow-2xl p-8 transform rotate-2 hover:rotate-0 transition-transform duration-300">
-                <div className="bg-gradient-to-br from-primary-500 to-medical-500 rounded-xl p-6 text-white">
-                  <h3 className="text-lg font-semibold mb-4">Live Dashboard</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Active Patients</span>
-                      <span className="font-bold">1,247</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Prescriptions Today</span>
-                      <span className="font-bold">89</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
-                      <span>Response Time</span>
-                      <span className="font-bold">2min</span>
+              {user ? (
+                /* AUTHENTICATED: show the original dashboard preview */
+                <div className="bg-white rounded-2xl shadow-2xl p-8 transform rotate-2 hover:rotate-0 transition-transform duration-300">
+                  <div className="bg-gradient-to-br from-primary-500 to-medical-500 rounded-xl p-6 text-white">
+                    <h3 className="text-lg font-semibold mb-4">Live Dashboard</h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
+                        <span>Active Patients</span>
+                        <span className="font-bold">1,247</span>
+                      </div>
+                      <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
+                        <span>Prescriptions Today</span>
+                        <span className="font-bold">89</span>
+                      </div>
+                      <div className="flex justify-between items-center bg-white/20 rounded-lg p-3">
+                        <span>Response Time</span>
+                        <span className="font-bold">2min</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              
+              ) : (
+                /* VISITOR: show a safe placeholder + CTA */
+                <div className="bg-white rounded-2xl shadow-2xl p-8">
+                  <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center">
+                    <LockClosedIcon className="h-10 w-10 mx-auto mb-4 text-gray-400" />
+                    <h3 className="text-lg font-semibold mb-2">Dashboard is private</h3>
+                    <p className="text-gray-600 mb-4">Sign in to view your personalized dashboard.</p>
+                    <div className="flex justify-center gap-3">
+                      <Link to="/login" className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">Sign In</Link>
+                      <Link to="/register" className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-200">Create account</Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Floating elements */}
               <div className="absolute -top-6 -left-6 bg-green-100 text-green-600 p-3 rounded-full animate-bounce">
                 <HeartIcon className="h-6 w-6" />
