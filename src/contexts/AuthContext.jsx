@@ -1,152 +1,248 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+// src/contexts/AuthContext.jsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth, signInWithGoogle, signOutUser } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { allUsers as initialAllUsers, addUser } from "../data/dummyData";
 
-const AuthContext = createContext()
+const db = getFirestore();
+const AuthContext = createContext();
 
+// Hook for using Auth context
 export const useAuth = () => {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
+    throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context
-}
+  return context;
+};
 
-// Mock user data for testing
-const mockUsers = {
-  'patient@caresync.com': {
-    id: '1',
-    email: 'patient@caresync.com',
-    password: 'password123',
-    role: 'patient',
-    name: 'John Doe',
-    firstName: 'John',
-    lastName: 'Doe'
-  },
-  'doctor@caresync.com': {
-    id: '2',
-    email: 'doctor@caresync.com',
-    password: 'password123',
-    role: 'doctor',
-    name: 'Dr. Sarah Johnson',
-    firstName: 'Sarah',
-    lastName: 'Johnson',
-    specialization: 'Cardiology'
-  },
-  'pharmacist@caresync.com': {
-    id: '3',
-    email: 'pharmacist@caresync.com',
-    password: 'password123',
-    role: 'pharmacist',
-    name: 'Mike Wilson',
-    firstName: 'Mike',
-    lastName: 'Wilson',
-    pharmacyName: 'CareSync Pharmacy'
+// Create user document in Firestore if not exists
+const createUserDocumentIfNotExists = async (user, defaultRole = "patient") => {
+  try {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      await setDoc(docRef, {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        role: defaultRole,
+        createdAt: new Date(),
+      });
+    }
+  } catch (error) {
+    console.error("Error creating user document:", error);
   }
-}
+};
+
+// Fetch user role from Firestore
+const fetchUserRole = async (uid) => {
+  try {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists() ? docSnap.data().role || null : null;
+  } catch (error) {
+    console.error("Failed to fetch user role:", error);
+    return null;
+  }
+};
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [allUsers, setAllUsers] = useState(() => {
+    try {
+      const storedUsers = localStorage.getItem("users");
+      return storedUsers ? JSON.parse(storedUsers) : initialAllUsers;
+    } catch (error) {
+      console.error("Error parsing users from localStorage", error);
+      return initialAllUsers;
+    }
+  });
 
-  // Check for stored user on app load
+  // Check for existing user session on app load
   useEffect(() => {
-    const storedUser = localStorage.getItem('caresync_user')
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
-    }
-    setLoading(false)
-  }, [])
+    const checkExistingSession = () => {
+      try {
+        const storedUser = localStorage.getItem("caresync_user");
+        console.log("Checking localStorage for user:", storedUser);
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          console.log("Found stored user:", userData);
+          setUser(userData);
+        } else {
+          console.log("No stored user found in localStorage");
+        }
+      } catch (error) {
+        console.error("Error checking existing session:", error);
+        localStorage.removeItem("caresync_user");
+      }
+      setLoading(false);
+    };
 
+    // Check localStorage first for immediate session restoration
+    checkExistingSession();
+  }, []);
+
+  // Save dummy users in localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("users", JSON.stringify(allUsers));
+    } catch (error) {
+      console.error("Error saving users to localStorage", error);
+    }
+  }, [allUsers]);
+
+  // Firebase auth listener - only run if no local user exists
+  useEffect(() => {
+    // If we already have a user from localStorage, don't run Firebase listener
+    if (user && !user.uid?.startsWith("firebase_")) {
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        await createUserDocumentIfNotExists(firebaseUser);
+        const role = await fetchUserRole(firebaseUser.uid);
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          photoURL: firebaseUser.photoURL,
+          role,
+        });
+      } else {
+        // Only clear user if it's a Firebase user
+        if (user && user.uid?.startsWith("firebase_")) {
+          setUser(null);
+        }
+      }
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, [user]);
+
+  // Login with Google (Firebase)
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    try {
+      const result = await signInWithGoogle();
+      await createUserDocumentIfNotExists(result.user);
+      const role = await fetchUserRole(result.user.uid);
+      const firebaseUser = {
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: result.user.displayName,
+        photoURL: result.user.photoURL,
+        role,
+      };
+      setUser(firebaseUser);
+      return { success: true, user: firebaseUser };
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Local dummy login
   const login = async (email, password, role) => {
-    setLoading(true)
-    
+    setLoading(true);
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const mockUser = mockUsers[email]
-      
-      if (!mockUser) {
-        throw new Error('User not found')
-      }
-      
-      if (mockUser.password !== password) {
-        throw new Error('Invalid password')
-      }
-      
-      if (mockUser.role !== role) {
-        throw new Error('Invalid role selected')
-      }
-      
-      // Remove password from user object
-      const { password: _, ...userWithoutPassword } = mockUser
-      
-      setUser(userWithoutPassword)
-      localStorage.setItem('caresync_user', JSON.stringify(userWithoutPassword))
-      
-      return { success: true, user: userWithoutPassword }
-    } catch (error) {
-      throw new Error(error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const userToLogin = allUsers.find((u) => u.email === email);
+      if (!userToLogin) throw new Error("User not found");
+      if (userToLogin.password !== password)
+        throw new Error("Invalid password");
+      if (userToLogin.role !== role) throw new Error("Invalid role selected");
 
+      const { password: _, ...userWithoutPassword } = userToLogin;
+      // Add a flag to identify local users
+      const localUser = { ...userWithoutPassword, isLocalUser: true };
+      console.log("Setting user in context:", localUser);
+      setUser(localUser);
+      console.log("Storing user in localStorage");
+      localStorage.setItem("caresync_user", JSON.stringify(localUser));
+      console.log("User stored successfully");
+      return { success: true, user: localUser };
+    } catch (error) {
+      throw new Error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Local dummy register
   const register = async (userData) => {
-    setLoading(true)
-    
+    setLoading(true);
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Check if user already exists
-      if (mockUsers[userData.email]) {
-        throw new Error('User already exists with this email')
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (allUsers.find((u) => u.email === userData.email)) {
+        throw new Error("User already exists with this email");
       }
-      
-      // Create new user
       const newUser = {
-        id: Date.now().toString(),
-        email: userData.email,
-        role: userData.role,
+        id: `user${Date.now()}`,
         name: `${userData.firstName} ${userData.lastName}`,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        ...userData
-      }
-      
-      // Remove password from user object
-      const { password, confirmPassword, ...userWithoutPassword } = newUser
-      
-      // In a real app, you'd save to database
-      mockUsers[userData.email] = newUser
-      
-      setUser(userWithoutPassword)
-      localStorage.setItem('caresync_user', JSON.stringify(userWithoutPassword))
-      
-      return { success: true, user: userWithoutPassword }
+        ...userData,
+      };
+      addUser(newUser);
+      setAllUsers((prev) => [...prev, newUser]);
+      const {
+        password: _,
+        confirmPassword: __,
+        ...userWithoutPassword
+      } = newUser;
+      // Add a flag to identify local users
+      const localUser = { ...userWithoutPassword, isLocalUser: true };
+      setUser(localUser);
+      localStorage.setItem("caresync_user", JSON.stringify(localUser));
+      return { success: true, user: localUser };
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem('caresync_user')
-  }
+  // Logout for both Firebase & local
+  const logout = async () => {
+    setLoading(true);
+    try {
+      // Try Firebase logout first (only if it's a Firebase user)
+      if (user && !user.isLocalUser) {
+        try {
+          await signOutUser();
+        } catch {
+          // If Firebase logout fails, continue with local logout
+          console.log("Firebase logout failed, continuing with local logout");
+        }
+      }
+
+      // Clear local user state
+      setUser(null);
+      localStorage.removeItem("caresync_user");
+
+      return { success: true };
+    } catch (error) {
+      console.error("Logout failed:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const value = {
     user,
+    loading,
+    allUsers,
+    loginWithGoogle,
     login,
     register,
     logout,
-    loading
-  }
+  };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
