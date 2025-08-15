@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  CheckIcon,
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { 
+  CheckIcon, 
+  StarIcon,
   PlayIcon,
   ArrowRightIcon,
   ShieldCheckIcon,
@@ -36,6 +38,8 @@ const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  
+  const { user, loading } = useAuth();
   const { isDark, toggleTheme } = useTheme();
 
   const handleScheduleDemoClick = () => {
@@ -58,6 +62,14 @@ const LandingPage = () => {
       document.body.classList.remove("no-scroll");
     }
   }, [isMobileMenuOpen]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -263,165 +275,221 @@ const LandingPage = () => {
                 ))}
               </div>
             </div>
-
-            {/* Professional Dashboard Preview - Removed distracting animations */}
+            
+            {/* Right Column - Dashboard Preview */}
             <div className="relative">
-              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
-                {/* Dashboard Header */}
-                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                      <HeartIcon className="h-6 w-6 text-white" />
+              {user ? (
+                // AUTHENTICATED: show professional dashboard preview
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
+                  {/* Dashboard Header */}
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
+                        <HeartIcon className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                          Welcome, {user.name || user.email}
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {user.role === 'doctor' ? 'Doctor Dashboard' : user.role === 'patient' ? 'Patient Portal' : 'Pharmacy Dashboard'}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                        CareSync Dashboard
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Dr. Sarah Johnson
-                      </p>
+                    <div className="relative">
+                      <BellIcon className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+                      <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">3</span>
+                      </span>
                     </div>
                   </div>
-                  <div className="relative">
-                    <BellIcon className="h-6 w-6 text-gray-400 dark:text-gray-500" />
-                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
-                      <span className="text-xs text-white font-bold">3</span>
-                    </span>
+
+                  {/* Stats Section */}
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                      <span className="text-gray-600 dark:text-gray-300">Active Patients</span>
+                      <span className="font-bold text-gray-900 dark:text-gray-100">1,247</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                      <span className="text-gray-600 dark:text-gray-300">Today's Tasks</span>
+                      <span className="font-bold text-gray-900 dark:text-gray-100">12</span>
+                    </div>
+                    <div className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                      <span className="text-gray-600 dark:text-gray-300">Response Time</span>
+                      <span className="font-bold text-gray-900 dark:text-gray-100">2min</span>
+                    </div>
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <Link
+                      to={`/${user.role}`}
+                      className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors duration-300"
+                    >
+                      <span>Go to Dashboard</span>
+                      <ArrowRightIcon className="h-5 w-5" />
+                    </Link>
                   </div>
                 </div>
-
-                {/* Professional Stats Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  {[
-                    {
-                      label: "Today's Appointments",
-                      value: "12",
-                      icon: CalendarDaysIcon,
-                      color: "text-blue-600",
-                      bg: "bg-blue-50",
-                      darkBg: "dark:bg-blue-900/20"
-                    },
-                    {
-                      label: "Pending Reports",
-                      value: "5",
-                      icon: DocumentTextIcon,
-                      color: "text-orange-600",
-                      bg: "bg-orange-50",
-                      darkBg: "dark:bg-orange-900/20"
-                    },
-                    {
-                      label: "Active Patients",
-                      value: "1,247",
-                      icon: UserGroupIcon,
-                      color: "text-emerald-600",
-                      bg: "bg-emerald-50",
-                      darkBg: "dark:bg-emerald-900/20"
-                    },
-                    {
-                      label: "Urgent Cases",
-                      value: "3",
-                      icon: ExclamationTriangleIcon,
-                      color: "text-red-600",
-                      bg: "bg-red-50",
-                      darkBg: "dark:bg-red-900/20"
-                    },
-                  ].map((stat, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-100 dark:border-gray-600"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div
-                          className={`w-10 h-10 ${stat.bg} ${stat.darkBg} rounded-lg flex items-center justify-center`}
-                        >
-                          <stat.icon className={`h-5 w-5 ${stat.color}`} />
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                            {stat.value}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight">
-                            {stat.label}
-                          </p>
-                        </div>
+              ) : (
+                // VISITOR: show professional dashboard preview
+                <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
+                  {/* Dashboard Header */}
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
+                        <HeartIcon className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                          CareSync Dashboard
+                        </h3>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Dr. Sarah Johnson
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                {/* Recent Activity */}
-                <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                    Recent Activity
-                  </h4>
-                  {[
-                    {
-                      patient: "John Smith",
-                      action: "Prescription updated",
-                      time: "10 min ago",
-                      status: "completed",
-                    },
-                    {
-                      patient: "Maria Garcia",
-                      action: "Lab results available",
-                      time: "25 min ago",
-                      status: "new",
-                    },
-                    {
-                      patient: "Robert Chen",
-                      action: "Appointment scheduled",
-                      time: "1 hour ago",
-                      status: "scheduled",
-                    },
-                  ].map((activity, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600"
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 gradient-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
-                          {activity.patient
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            {activity.patient}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {activity.action}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <span
-                          className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                            activity.status === "completed"
-                              ? "bg-green-500"
-                              : activity.status === "new"
-                              ? "bg-blue-500"
-                              : "bg-yellow-500"
-                          }`}
-                        />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {activity.time}
-                        </span>
-                      </div>
+                    <div className="relative">
+                      <BellIcon className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+                      <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs text-white font-bold">3</span>
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
 
-                {/* CTA Button */}
-                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <button className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors duration-300">
-                    <PlusCircleIcon className="h-5 w-5" />
-                    <span>New Patient</span>
-                  </button>
-                </div>
-              </div>
+                  {/* Professional Stats Grid */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    {[
+                      {
+                        label: "Today's Appointments",
+                        value: "12",
+                        icon: CalendarDaysIcon,
+                        color: "text-blue-600",
+                        bg: "bg-blue-50",
+                        darkBg: "dark:bg-blue-900/20"
+                      },
+                      {
+                        label: "Pending Reports",
+                        value: "5",
+                        icon: DocumentTextIcon,
+                        color: "text-orange-600",
+                        bg: "bg-orange-50",
+                        darkBg: "dark:bg-orange-900/20"
+                      },
+                      {
+                        label: "Active Patients",
+                        value: "1,247",
+                        icon: UserGroupIcon,
+                        color: "text-emerald-600",
+                        bg: "bg-emerald-50",
+                        darkBg: "dark:bg-emerald-900/20"
+                      },
+                      {
+                        label: "Urgent Cases",
+                        value: "3",
+                        icon: ExclamationTriangleIcon,
+                        color: "text-red-600",
+                        bg: "bg-red-50",
+                        darkBg: "dark:bg-red-900/20"
+                      },
+                    ].map((stat, index) => (
+                      <div
+                        key={index}
+                        className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-100 dark:border-gray-600"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div
+                            className={`w-10 h-10 ${stat.bg} ${stat.darkBg} rounded-lg flex items-center justify-center`}
+                          >
+                            <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                          </div>
+                          <div>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                              {stat.value}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight">
+                              {stat.label}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
-              {/* Subtle Decorative Elements - No distracting animations */}
+                  {/* Recent Activity */}
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                      Recent Activity
+                    </h4>
+                    {[
+                      {
+                        patient: "John Smith",
+                        action: "Prescription updated",
+                        time: "10 min ago",
+                        status: "completed",
+                      },
+                      {
+                        patient: "Maria Garcia",
+                        action: "Lab results available",
+                        time: "25 min ago",
+                        status: "new",
+                      },
+                      {
+                        patient: "Robert Chen",
+                        action: "Appointment scheduled",
+                        time: "1 hour ago",
+                        status: "scheduled",
+                      },
+                    ].map((activity, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 gradient-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            {activity.patient
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                              {activity.patient}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {activity.action}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span
+                            className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                              activity.status === "completed"
+                                ? "bg-green-500"
+                                : activity.status === "new"
+                                ? "bg-blue-500"
+                                : "bg-yellow-500"
+                            }`}
+                          />
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {activity.time}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <button className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors duration-300">
+                      <PlusCircleIcon className="h-5 w-5" />
+                      <span>New Patient</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Subtle Decorative Elements */}
               <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
                 <HeartIcon className="h-8 w-8" />
               </div>
@@ -503,8 +571,10 @@ const LandingPage = () => {
 
       {/* Contributor */}
       <Contributor />
+      
       {/* Contact Us */}
       <ContactUs />
+      
       {/* Footer */}
       <Footer />
 
