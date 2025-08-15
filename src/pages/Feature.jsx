@@ -36,7 +36,7 @@ const Feature = () => {
       id="features"
       className="min-h-screen py-20 px-6 md:px-20 bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100"
     >
-        <SplashCursor/>
+        {/* <SplashCursor/> */}
       <motion.div
         className="text-center mb-12"
         initial={{ opacity: 0, y: 30 }}
