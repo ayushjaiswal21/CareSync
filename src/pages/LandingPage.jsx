@@ -16,7 +16,7 @@ import {
   SunIcon,
   Bars3Icon,
   XMarkIcon,
-  CalendarDaysIcon
+  CalendarDaysIcon,
 } from "@heroicons/react/24/outline";
 import { Typewriter } from "react-simple-typewriter";
 import StatsSection from "./StatsSection";
@@ -25,6 +25,7 @@ import Testimonials from "./Testimonials";
 import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
+import ContactUs from "./ContactUs";
 
 // Import the new CalendarModal component from the correct path
 import CalendarModal from "../components/common/CalendarModal";
@@ -54,11 +55,12 @@ const LandingPage = () => {
     setIsCalendarOpen(false); // Close the modal after selection
   };
 
-  useEffect(() => {   // handle the no-scroll CSS class in the <body>
+  useEffect(() => {
+    // handle the no-scroll CSS class in the <body>
     if (isMobileMenuOpen) {
-      document.body.classList.add('no-scroll');
+      document.body.classList.add("no-scroll");
     } else {
-      document.body.classList.remove('no-scroll');
+      document.body.classList.remove("no-scroll");
     }
   }, [isMobileMenuOpen]);
 
@@ -84,23 +86,23 @@ const LandingPage = () => {
               </span>
             </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-center space-x-8">
-                {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
-                  (item) => (
-                    <a
-                      key={item}
-                      href={`#${item.toLowerCase()}`}
-                      className="flex gap-2 items-center text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group
-              after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-emerald-600 after:scale-x-0 after:origin-center after:transition-transform after:duration-300
-              hover:after:scale-x-100"
-                    >
-                      {item}
-                    </a>
-                  )
-                )}
-              </div>
+            <div className="flex items-center space-x-8">
+              {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
+                (item) => (
+                  <a
+                    key={item}
+                    href={
+                      item === "Contact"
+                        ? "#contact-form"
+                        : `#${item.toLowerCase()}`
+                    }
+                    className="relative text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium group"
+                  >
+                    {item}
+                    <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-emerald-600 transition-all duration-300 group-hover:w-full" />
+                  </a>
+                )
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -505,6 +507,8 @@ const LandingPage = () => {
       </section>
       {/* Contributor */}
       <Contributor />
+      {/* Contact Us */}
+      <ContactUs />
       {/* Footer */}
       <Footer />
 

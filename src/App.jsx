@@ -8,6 +8,7 @@ import {
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import LandingPage from "./pages/LandingPage";
 import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
 import Layout from "./components/common/Layout";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -66,11 +67,11 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
   return children;
 };
 
-// Public Route Component - Redirects authenticated users
-const PublicRoute = ({ children }) => {
+// Public Route Component - Redirects authenticated users for auth pages only
+const PublicRoute = ({ children, authOnly = false }) => {
   const { user, loading } = useAuth();
 
-  console.log("PublicRoute - user:", user, "loading:", loading);
+  console.log("PublicRoute - user:", user, "loading:", loading, "authOnly:", authOnly);
 
   if (loading) {
     console.log("PublicRoute - showing loading spinner");
@@ -81,7 +82,8 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  if (user) {
+  // Only redirect authenticated users from auth pages (login/register)
+  if (user && authOnly) {
     console.log("PublicRoute - user authenticated, redirecting to dashboard");
     return <Navigate to={`/${user.role}`} replace />;
   }
@@ -113,27 +115,16 @@ const AppRoutes = () => {
   console.log("AppRoutes - rendering routes, user:", user);
   return (
     <Routes>
-      {/* Public Routes - Redirect authenticated users */}
-      <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <LandingPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/contact"
-        element={
-          <PublicRoute>
-            <ContactPage />
-          </PublicRoute>
-        }
-      />
+      {/* Public Routes - Accessible to all users */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      
+      {/* Auth Routes - Redirect authenticated users */}
       <Route
         path="/login"
         element={
-          <PublicRoute>
+          <PublicRoute authOnly={true}>
             <Login />
           </PublicRoute>
         }
@@ -141,7 +132,7 @@ const AppRoutes = () => {
       <Route
         path="/register"
         element={
-          <PublicRoute>
+          <PublicRoute authOnly={true}>
             <Register />
           </PublicRoute>
         }
@@ -223,7 +214,7 @@ function App() {
           <div className="App bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
             <AppRoutes />
             <Toaster
-              position="bottom-right"//Change this to alter the position of the toast.
+              position="bottom-right" // Change this to alter the position of the toast.
               toastOptions={{
                 duration: 4000,
                 style: {

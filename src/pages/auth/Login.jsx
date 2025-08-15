@@ -68,27 +68,11 @@ const Login = () => {
     }
   };
 
-  //Uncomment this if you want to implement google sign/login function needed work.
-  // const handleGoogleSignIn = async () => {
-  //   try {
-  //     setLoading(true)
-  //     setError('')
-  //     const result = await loginWithGoogle()
-  //     if (result.success) {
-  //       navigate(`/${result.user.role}`)
-  //     }
-  //   } catch (err) {
-  //     setError(err.message || 'Google sign-in failed')
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
   const fillDemoCredentials = (role) => {
     let user;
     if (role === "patient") user = patients[0];
-    if (role === "doctor") user = doctors[0];
-    if (role === "pharmacist") user = pharmacists[0];
+    if (role === "doctor") user = doctors;
+    if (role === "pharmacist") user = pharmacists;
 
     if (user) {
       setFormData({
@@ -309,7 +293,7 @@ const Login = () => {
                 role === "patient"
                   ? patients[0]
                   : role === "doctor"
-                  ? doctors[0]
+                  ? doctors
                   : pharmacists[0];
               const colors = {
                 patient: "from-blue-400 to-blue-500",
