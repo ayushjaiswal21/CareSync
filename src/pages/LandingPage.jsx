@@ -17,6 +17,9 @@ import {
   Bars3Icon,
   XMarkIcon,
   CalendarDaysIcon,
+  LockClosedIcon,
+  ClockIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import { Typewriter } from "react-simple-typewriter";
 import StatsSection from "./StatsSection";
@@ -26,38 +29,29 @@ import Footer from "./Footer";
 import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
-
-// Import the new CalendarModal component from the correct path
 import CalendarModal from "../components/common/CalendarModal";
 import Feature from "./feature";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // State to manage the visibility of the calendar modal
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
 
-  // Handler to open the calendar modal
   const handleScheduleDemoClick = () => {
     setIsCalendarOpen(true);
   };
 
-  // Handler to close the calendar modal
   const handleCalendarClose = () => {
     setIsCalendarOpen(false);
   };
 
-  // Handler for when a date is selected in the calendar
   const handleDateSelection = (selectedDate) => {
     console.log("Selected demo date:", selectedDate);
-    // You would typically send the selected date to an API here
-    // or perform a follow-up action.
-    setIsCalendarOpen(false); // Close the modal after selection
+    setIsCalendarOpen(false);
   };
 
   useEffect(() => {
-    // handle the no-scroll CSS class in the <body>
     if (isMobileMenuOpen) {
       document.body.classList.add("no-scroll");
     } else {
@@ -67,7 +61,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      {/* Enhanced Navigation */}
+      {/* Professional Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-800/50 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -87,7 +81,7 @@ const LandingPage = () => {
               </span>
             </div>
 
-            <div className="flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
                 (item) => (
                   <a
@@ -117,7 +111,6 @@ const LandingPage = () => {
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
-              {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -139,7 +132,7 @@ const LandingPage = () => {
               </Link>
               <Link
                 to="/register"
-                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold transform hover:scale-105"
+                className="gradient-accent text-white px-6 py-2.5 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold"
               >
                 Get Started
               </Link>
@@ -150,7 +143,7 @@ const LandingPage = () => {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="relative md:hidden">
-            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white dark:bg-gray-900">
+            <div className="absolute right-0 w-52 h-dvh pt-10 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800">
               {["Home", "Features", "Pricing", "Testimonials", "Contact"].map(
                 (item) => (
                   <a
@@ -166,7 +159,6 @@ const LandingPage = () => {
                 )
               )}
               <div className="flex flex-col space-y-2 mt-20 px-3">
-                {/* Dark Mode Toggle for Mobile */}
                 <button
                   onClick={toggleTheme}
                   className="text-center py-2 text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors flex items-center justify-center gap-2"
@@ -196,22 +188,24 @@ const LandingPage = () => {
         )}
       </nav>
 
-      {/* Enhanced Hero Section */}
+      {/* Professional Hero Section */}
       <section
         id="home"
         className="relative min-h-screen flex items-center bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 overflow-hidden pt-16"
       >
-        {/* Animated Background Elements */}
+        {/* Subtle Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 dark:from-emerald-400/10 dark:to-teal-400/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-blue-400/20 dark:from-teal-400/10 dark:to-blue-400/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-emerald-400/10 to-teal-400/10 dark:from-emerald-400/5 dark:to-teal-400/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-teal-400/10 to-blue-400/10 dark:from-teal-400/5 dark:to-blue-400/5 rounded-full blur-3xl" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
-              <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold shadow-sm">
-                🏥 Trusted by 500+ Healthcare Providers
+              {/* Trust Badge */}
+              <div className="inline-flex items-center bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 text-emerald-700 dark:text-emerald-300 px-4 py-2 rounded-full text-sm font-semibold shadow-sm border border-emerald-200 dark:border-emerald-800">
+                <ShieldCheckIcon className="w-4 h-4 mr-2" />
+                Trusted by 500+ Healthcare Providers
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-black text-gray-900 dark:text-gray-100 leading-tight">
@@ -224,18 +218,19 @@ const LandingPage = () => {
                 Made Simple
               </h1>
 
-              <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+              <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium max-w-2xl">
                 Streamline patient care with our comprehensive healthcare
                 platform. Connect doctors, patients, and pharmacies in one
                 secure ecosystem.
               </p>
 
+              {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/register"
                   className="gradient-accent text-white px-8 py-4 rounded-xl
-                  flex items-center justify-center space-x-2 font-bold text-lg shadow-xl hover:shadow-2xl
-                  transition-all duration-300 transform hover:scale-105"
+                  flex items-center justify-center space-x-2 font-bold text-lg shadow-xl
+                  transition-all duration-300"
                 >
                   <span>Start Free Trial</span>
                   <ArrowRightIcon className="h-5 w-5" />
@@ -246,39 +241,32 @@ const LandingPage = () => {
                   className="border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl
                   hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20
                   flex items-center justify-center space-x-2 font-bold text-lg
-                  transition-all duration-300 transform hover:scale-105"
+                  transition-all duration-300"
                 >
                   <PlayIcon className="h-5 w-5" />
                   <span>Watch Demo</span>
                 </button>
               </div>
 
-              {/* Enhanced Features with Typewriter */}
+              {/* Trust Indicators */}
               <div className="flex flex-col sm:flex-row items-center sm:space-x-8 space-y-3 sm:space-y-0 text-base text-gray-600 dark:text-gray-400">
-                {["HIPAA Compliant & Secure", "24/7 Support Available"].map(
-                  (text, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div className="h-6 w-6 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
-                        <CheckIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                      </div>
-                      <span className="font-medium">
-                        <Typewriter
-                          words={[text]}
-                          loop={1}
-                          cursor
-                          typeSpeed={50}
-                          delaySpeed={index * 1000}
-                        />
-                      </span>
+                {[
+                  { icon: ShieldCheckIcon, text: "HIPAA Compliant & Secure" },
+                  { icon: ClockIcon, text: "24/7 Support Available" }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <div className="h-6 w-6 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                  )
-                )}
+                    <span className="font-medium">{item.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Healthcare Dashboard Preview */}
+            {/* Professional Dashboard Preview - Removed distracting animations */}
             <div className="relative">
-              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 transform rotate-1 hover:rotate-0 transition-all duration-500 hover:scale-105">
+              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 border border-gray-100 dark:border-gray-700">
                 {/* Dashboard Header */}
                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100 dark:border-gray-700">
                   <div className="flex items-center space-x-3">
@@ -302,7 +290,7 @@ const LandingPage = () => {
                   </div>
                 </div>
 
-                {/* Quick Stats */}
+                {/* Professional Stats Grid */}
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {[
                     {
@@ -310,37 +298,41 @@ const LandingPage = () => {
                       value: "12",
                       icon: CalendarDaysIcon,
                       color: "text-blue-600",
-                      bg: "bg-blue-100",
+                      bg: "bg-blue-50",
+                      darkBg: "dark:bg-blue-900/20"
                     },
                     {
                       label: "Pending Reports",
                       value: "5",
                       icon: DocumentTextIcon,
                       color: "text-orange-600",
-                      bg: "bg-orange-100",
+                      bg: "bg-orange-50",
+                      darkBg: "dark:bg-orange-900/20"
                     },
                     {
                       label: "Active Patients",
                       value: "1,247",
                       icon: UserGroupIcon,
                       color: "text-emerald-600",
-                      bg: "bg-emerald-100",
+                      bg: "bg-emerald-50",
+                      darkBg: "dark:bg-emerald-900/20"
                     },
                     {
                       label: "Urgent Cases",
                       value: "3",
                       icon: ExclamationTriangleIcon,
                       color: "text-red-600",
-                      bg: "bg-red-100",
+                      bg: "bg-red-50",
+                      darkBg: "dark:bg-red-900/20"
                     },
                   ].map((stat, index) => (
                     <div
                       key={index}
-                      className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4"
+                      className="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-100 dark:border-gray-600"
                     >
                       <div className="flex items-center space-x-3">
                         <div
-                          className={`w-10 h-10 ${stat.bg} dark:bg-opacity-20 rounded-lg flex items-center justify-center`}
+                          className={`w-10 h-10 ${stat.bg} ${stat.darkBg} rounded-lg flex items-center justify-center`}
                         >
                           <stat.icon className={`h-5 w-5 ${stat.color}`} />
                         </div>
@@ -384,7 +376,7 @@ const LandingPage = () => {
                   ].map((activity, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                      className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-100 dark:border-gray-600"
                     >
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 gradient-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
@@ -420,26 +412,26 @@ const LandingPage = () => {
                   ))}
                 </div>
 
-                {/* Quick Action */}
+                {/* CTA Button */}
                 <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-                  <button className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300">
+                  <button className="w-full gradient-accent text-white py-3 px-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors duration-300">
                     <PlusCircleIcon className="h-5 w-5" />
                     <span>New Patient</span>
                   </button>
                 </div>
               </div>
 
-              {/* Healthcare-themed Floating Elements */}
-              <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg animate-bounce">
+              {/* Subtle Decorative Elements - No distracting animations */}
+              <div className="absolute -top-6 -left-6 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 p-4 rounded-2xl shadow-lg">
                 <HeartIcon className="h-8 w-8" />
               </div>
 
-              <div className="absolute -bottom-6 -right-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg animate-pulse">
+              <div className="absolute -bottom-6 -right-6 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-4 rounded-2xl shadow-lg">
                 <ShieldCheckIcon className="h-8 w-8" />
               </div>
 
-              <div className="absolute top-1/2 -right-8 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-3 rounded-xl shadow-lg animate-pulse delay-1000">
-                <BellIcon className="h-6 w-6" />
+              <div className="absolute top-1/2 -right-8 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 p-3 rounded-xl shadow-lg">
+                <ChartBarIcon className="h-6 w-6" />
               </div>
             </div>
           </div>
@@ -450,14 +442,15 @@ const LandingPage = () => {
       <StatsSection />
 
       {/* Features Section */}
-      <Feature/>
+      <Feature />
+
       {/* Pricing Section */}
       <Pricing />
 
       {/* Testimonials Section */}
       <Testimonials />
 
-      {/* Enhanced CTA Section */}
+      {/* Professional CTA Section */}
       <section className="py-24 bg-gradient-to-br from-emerald-500 via-teal-600 to-blue-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/10" />
         <div className="absolute inset-0 opacity-20">
@@ -466,7 +459,7 @@ const LandingPage = () => {
 
         <div className="relative max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl lg:text-5xl font-black text-white mb-8">
-            Ready to Revolutionize
+            Ready to Transform
             <br className="hidden sm:block" />
             Your Healthcare Practice?
           </h2>
@@ -478,15 +471,14 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8">
             <Link
               to="/register"
-              className="bg-white text-emerald-600 px-10 py-4 rounded-xl hover:bg-gray-50 transition-all duration-300 font-bold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105"
+              className="bg-white text-emerald-600 px-10 py-4 rounded-xl hover:bg-gray-50 transition-all duration-300 font-bold text-lg shadow-xl"
             >
               Start Free Trial Today
             </Link>
 
-            {/* This is the button that now correctly opens the modal */}
             <button
               onClick={handleScheduleDemoClick}
-              className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm transform hover:scale-105"
+              className="border-2 border-white text-white px-10 py-4 rounded-xl hover:bg-white hover:text-emerald-600 transition-all duration-300 font-bold text-lg backdrop-blur-sm"
             >
               Schedule Demo
             </button>
@@ -508,6 +500,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
       {/* Contributor */}
       <Contributor />
       {/* Contact Us */}
@@ -515,7 +508,7 @@ const LandingPage = () => {
       {/* Footer */}
       <Footer />
 
-      {/* Video Modal */}
+      {/* Professional Video Modal */}
       {isVideoPlaying && (
         <div
           className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
@@ -551,7 +544,7 @@ const LandingPage = () => {
         </div>
       )}
 
-      {/* Calendar Modal - Conditionally rendered */}
+      {/* Calendar Modal */}
       {isCalendarOpen && (
         <CalendarModal
           onClose={handleCalendarClose}

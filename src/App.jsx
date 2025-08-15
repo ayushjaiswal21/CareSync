@@ -24,7 +24,7 @@ import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
 
-import AboutPage from "./pages/AboutPage";
+
 import Feature from "./pages/feature";
 
 import Patients from "./components/doctor/Patients";
