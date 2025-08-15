@@ -29,6 +29,7 @@ import ContactUs from "./ContactUs";
 
 // Import the new CalendarModal component from the correct path
 import CalendarModal from "../components/common/CalendarModal";
+import Feature from "./feature";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -448,6 +449,8 @@ const LandingPage = () => {
       {/* Stats Section */}
       <StatsSection />
 
+      {/* Features Section */}
+      <Feature/>
       {/* Pricing Section */}
       <Pricing />
 

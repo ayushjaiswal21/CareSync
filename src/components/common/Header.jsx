@@ -45,7 +45,7 @@ const Header = () => {
               Beta
             </span>
           </div>
-
+              
           <div className="flex items-center space-x-2 sm:space-x-4">
             <button
               onClick={toggleTheme}
