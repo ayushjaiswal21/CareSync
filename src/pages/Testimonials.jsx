@@ -1,4 +1,4 @@
-// src/components/Testimonials.tsx
+// src/components/Testimonials.jsx
 import { useState } from "react";
 import {
   StarIcon,
@@ -97,19 +97,19 @@ export default function Testimonials() {
 
   // Animation variants
   const variants = {
-    enter: (dir: number) => ({
+    enter: (dir) => ({
       x: dir > 0 ? 50 : -50,
       opacity: 0,
     }),
     center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({
+    exit: (dir) => ({
       x: dir > 0 ? -50 : 50,
       opacity: 0,
     }),
   };
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-950">
+    <section id="testimonials" className="py-20 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -155,7 +155,7 @@ export default function Testimonials() {
 
                 {/* User Info */}
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mr-4 font-semibold text-primary-600 dark:text-primary-400">
+                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mr-4 font-semibold text-emerald-600 dark:text-emerald-400">
                     {t.name
                       .split(" ")
                       .map((n) => n[0])
@@ -183,6 +183,7 @@ export default function Testimonials() {
           <button
             onClick={handlePrev}
             className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+            aria-label="Previous testimonials"
           >
             <ChevronLeftIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </button>
@@ -192,6 +193,7 @@ export default function Testimonials() {
           <button
             onClick={handleNext}
             className="bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/50 rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+            aria-label="Next testimonials"
           >
             <ChevronRightIcon className="h-6 w-6 text-gray-700 dark:text-gray-300" />
           </button>
