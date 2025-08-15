@@ -30,7 +30,7 @@ import Contributor from "../components/common/Contributor";
 import { useTheme } from "../contexts/ThemeContext";
 import ContactUs from "./ContactUs";
 import CalendarModal from "../components/common/CalendarModal";
-import Feature from "./feature";
+import Feature from "./Feature";
 
 const LandingPage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);

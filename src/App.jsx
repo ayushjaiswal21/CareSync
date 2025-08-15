@@ -25,7 +25,7 @@ import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
 
 
-import Feature from "./pages/feature";
+import Feature from "./pages/Feature";
 
 import Patients from "./components/doctor/Patients";
 import Messages from "./components/common/Messages";
