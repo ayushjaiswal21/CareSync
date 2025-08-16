@@ -108,7 +108,17 @@ export default function Footer() {
               <ul className="space-y-2 text-sm">
                 {section.links.map((link) => (
                   <li key={link}>
-                    {link === "Pricing" ? (
+
+                  {link === "Contact" ? (
+                      <a
+                        href="#contact-form"
+                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                      >
+                        {link}
+                      </a>
+                    ) :
+
+                    link === "Pricing" ? (
                       <a
                         href="#pricing"
                         className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
