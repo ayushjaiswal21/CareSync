@@ -10,8 +10,8 @@ const Contributor = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const owner = import.meta.env.VITE_GITHUB_OWNER;
-        const repo = import.meta.env.VITE_GITHUB_REPO;
+        const owner = "ayushjaiswal21";
+        const repo = "CareSync";
 
         // 1. Fetch repo data (stars, forks)
         const repoRes = await fetch(
