@@ -8,6 +8,7 @@ import {
   CogIcon,
   ChevronRightIcon,
   XMarkIcon,
+  CodeBracketIcon,
 } from "@heroicons/react/24/outline";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -30,6 +31,7 @@ const patientMenuItems = [
     icon: ChatBubbleLeftRightIcon,
   },
   { name: "Settings", href: "/patient/settings", icon: CogIcon },
+  { name: "My Snippets", href: "/patient/snippets", icon: CodeBracketIcon },
 ];
 
 const doctorMenuItems = [
@@ -43,6 +45,7 @@ const doctorMenuItems = [
   { name: "Messages", href: "/doctor/messages", icon: ChatBubbleLeftRightIcon },
   
   { name: "Settings", href: "/doctor/settings", icon: CogIcon },
+  { name: "My Snippets", href: "/doctor/snippets", icon: CodeBracketIcon },
 ];
 
 const pharmacistMenuItems = [
@@ -59,6 +62,7 @@ const pharmacistMenuItems = [
     icon: ChatBubbleLeftRightIcon,
   },
   { name: "Settings", href: "/pharmacist/settings", icon: CogIcon },
+  { name: "My Snippets", href: "/pharmacist/snippets", icon: CodeBracketIcon },
 ];
 
 export default function Sidebar() {

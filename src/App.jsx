@@ -23,6 +23,7 @@ import { AppointmentProvider } from "./contexts/AppointmentContext";
 import Appointments from "./components/patient/Appointments";
 import Schedule from "./components/doctor/Schedule";
 import HealthLogs from "./components/patient/HealthLogs";
+import MySnippet from "./components/common/MySnippet";
 
 
 import Feature from "./pages/Feature";
@@ -165,6 +166,7 @@ const AppRoutes = () => {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="settings" element={<Settings />} />
         <Route path="inventory" element={<Inventory />} />
+        <Route path="snippets" element={<MySnippet />} />
       </Route>
 
       {/* Doctor Routes */}
@@ -182,6 +184,7 @@ const AppRoutes = () => {
         <Route path="messages" element={<Messages />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="snippets" element={<MySnippet />} />
       </Route>
 
       {/* Pharmacist Routes */}
@@ -199,6 +202,7 @@ const AppRoutes = () => {
         <Route path="settings" element={<Settings />} />
         <Route path="prescriptions" element={<Prescription />} />
         <Route path="inventory" element={<PharmacistInventory />} />
+        <Route path="snippets" element={<MySnippet />} />
       </Route>
 
       {/* Catch all - Redirect to appropriate dashboard or landing */}
