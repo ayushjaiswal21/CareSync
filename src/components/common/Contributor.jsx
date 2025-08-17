@@ -10,7 +10,7 @@ const Contributor = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const owner = "ayushjaiswal21";
+        const owner = "akathedeveloper";
         const repo = "CareSync";
 
         // 1. Fetch repo data (stars, forks)
